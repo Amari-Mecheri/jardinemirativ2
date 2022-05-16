@@ -4,10 +4,12 @@ import 'package:jardinemirativ2/widgets/carousel.dart';
 import 'package:jardinemirativ2/widgets/gender_button.dart';
 
 import '../widgets/categories_container.dart';
+import '../widgets/footer.dart';
 import '../widgets/marques_container.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final Image backgroundImage;
+  const HomeScreen({Key? key, required this.backgroundImage}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -48,9 +50,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         origin: const Offset(0.49, 0.56),
                         child: Container(
                           //constraints: const BoxConstraints.expand(),
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: AssetImage('image/rectangle.webp'),
+                              //image: AssetImage('image/rectangle.webp'),
+                              image: widget.backgroundImage.image,
                               fit: BoxFit.fill,
                             ),
                           ),
@@ -73,60 +76,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           child: const CategoriesContainer(),
                         ),
-
-                        // Image.asset(
-                        //   'image/rectangle.webp',
-                        //   height: 150,
-                        //   width: 150,
-                        // ),
-                        // Text('Salem 123'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
-                        // Text('Salem 1'),
                       ],
                     ),
                   ],
@@ -148,47 +97,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       gender: Gender.hommes,
                     ),
                   ],
-                  // children: const [
-                  //   Text('Femmes'),
-                  //   Text('Mixtes'),
-                  //   Text('Hommes'),
-                  // ],
                 ),
               ),
             ],
           ),
+          const Footer(),
         ],
       ),
     );
   }
 }
-
-/*
-.genre {
-    margin: 0 0 0 11.5px; //TRBL
-    padding: 18px 43.5px 17.5px 64.5px; //TRBL
-    border-radius: 23px; //
-    box-shadow: 0 5px 3px 0 rgba(0, 0, 0, 0.16); //
-    background-color: #fff; //
-    transform: translateY(-50%);
-    font-family: HelveticaNeue; //
-    font-size: 16px; //
-    font-weight: bold; //
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    text-align: left; //
-    color: #b88a57; //
-    top: 0;
-    z-index: 0;
-
-    @media screen and (max-width: 900px) {
-        box-shadow: none;
-        background-color: transparent;
-        transform: translateY(-70%);
-        padding-left: 0px;
-    }
-
-}
-*/

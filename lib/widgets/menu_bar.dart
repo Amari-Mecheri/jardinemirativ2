@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../utils/colors.dart';
 
 class MenuBar extends StatefulWidget implements PreferredSizeWidget {
-  const MenuBar({Key? key}) : super(key: key);
+  final PageController pageController;
+  const MenuBar({Key? key, required this.pageController}) : super(key: key);
 
   @override
   State<MenuBar> createState() => _MenuBarState();
@@ -14,23 +15,22 @@ class MenuBar extends StatefulWidget implements PreferredSizeWidget {
 
 class _MenuBarState extends State<MenuBar> {
   int _page = 0;
-  late PageController pageController;
 
-  @override
-  void initState() {
-    super.initState();
-    //getUsername();
-    pageController = PageController();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   //getUsername();
+  //   widget.pageController = PageController();
+  // }
 
-  @override
-  void dispose() {
-    super.dispose();
-    pageController.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   pageController.dispose();
+  // }
 
   void navigationTab(int page) {
-    pageController.jumpToPage(page);
+    widget.pageController.jumpToPage(page);
   }
 
   void onPageChanged(int page) {
@@ -100,8 +100,9 @@ class _MenuBarState extends State<MenuBar> {
           width: 32,
         ),
         InkWell(
-            child: Image.asset('image/basket.png', width: 28),
-            onTap: () => navigationTab(4)),
+          child: Image.asset('image/basket.png', width: 28),
+          onTap: () => navigationTab(4),
+        ),
         const SizedBox(
           width: 16,
         ),

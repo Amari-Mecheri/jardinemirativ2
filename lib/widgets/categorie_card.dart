@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:jardinemirativ2/utils/global_variables.dart';
 
 class CategorieCard extends StatefulWidget {
   final DecorationImage logo;
@@ -25,6 +24,11 @@ class _CategorieCardState extends State<CategorieCard> {
       child: Container(
         width: 15 * 14,
         height: 30 * 14,
+        // width: MediaQuery.of(context).size.width > minScreenSize
+        //     ? MediaQuery.of(context).size.width > midScreenSize
+        //         ? 15 * 14
+        //         : 10 * 14
+        //     : 7.5 * 14,
         // height: MediaQuery.of(context).size.width > minScreenSize
         //     ? MediaQuery.of(context).size.width > midScreenSize
         //         ? 30 * 14

@@ -50,7 +50,9 @@ class _JardinEmiratiState extends State<JardinEmirati> {
       title: "Jardin Emirati",
       home: Scaffold(
         extendBodyBehindAppBar: true,
-        appBar: const MenuBar(),
+        appBar: MenuBar(
+          pageController: pageController,
+        ),
         body: PageView(
           controller: pageController,
           //onPageChanged: onPageChanged,

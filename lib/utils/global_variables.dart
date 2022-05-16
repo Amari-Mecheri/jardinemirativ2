@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:jardinemirativ2/screens/home_screen.dart';
+import 'package:jardinemirativ2/screens/mentions_legales_screen.dart';
 
 const minScreenSize = 900;
 const midScreenSize = 1200;
 
+final Image backgroundImage = Image.asset("image/rectangle.webp");
+
 List<Widget> homeScreenItems = [
-  const HomeScreen(),
+  HomeScreen(backgroundImage: backgroundImage),
   const Text('Boutique'),
   const Text('Mon compte'),
-  const Text('Mentions légales'),
+  MentionsLegalesScreen(backgroundImage: backgroundImage),
   const Text('Pas niais'),
 ];
 
