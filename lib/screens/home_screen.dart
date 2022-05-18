@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:jardinemirativ2/utils/global_variables.dart';
+import 'package:jardinemirativ2/consts/global_variables.dart';
 import 'package:jardinemirativ2/widgets/carousel.dart';
 import 'package:jardinemirativ2/widgets/gender_button.dart';
 
+import '../classes/global_static.dart';
 import '../widgets/categories_container.dart';
 import '../widgets/footer.dart';
 import '../widgets/marques_container.dart';
 
 class HomeScreen extends StatefulWidget {
-  final Image backgroundImage;
-  const HomeScreen({Key? key, required this.backgroundImage}) : super(key: key);
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           decoration: BoxDecoration(
                             image: DecorationImage(
                               //image: AssetImage('image/rectangle.webp'),
-                              image: widget.backgroundImage.image,
+                              image: GlobalStatic.backgroundImage!,
                               fit: BoxFit.fill,
                             ),
                           ),

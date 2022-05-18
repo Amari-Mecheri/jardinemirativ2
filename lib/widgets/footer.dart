@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../classes/main_page_controller.dart';
+
 class Footer extends StatelessWidget {
   const Footer({Key? key}) : super(key: key);
 
@@ -60,7 +62,7 @@ class Footer extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () => MainPageController.navigationTab(3),
                     child: const Text(
                       "Mentions légales",
                       style: TextStyle(color: Colors.white),

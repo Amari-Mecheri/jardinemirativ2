@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jardinemirativ2/utils/global_variables.dart';
+import 'package:jardinemirativ2/consts/global_variables.dart';
 import 'package:jardinemirativ2/widgets/carousel.dart';
 import 'package:jardinemirativ2/widgets/gender_button.dart';
 

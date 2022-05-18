@@ -1,8 +1,8 @@
 //import 'package:enum_to_string/enum_to_string.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
-import 'package:jardinemirativ2/utils/colors.dart';
-import 'package:jardinemirativ2/utils/global_variables.dart';
+import 'package:jardinemirativ2/consts/colors.dart';
+import 'package:jardinemirativ2/consts/global_variables.dart';
 
 class GenderButton extends StatelessWidget {
   final Gender gender;

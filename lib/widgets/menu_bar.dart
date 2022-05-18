@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../utils/colors.dart';
+import '../classes/main_page_controller.dart';
+import '../consts/colors.dart';
 
 class MenuBar extends StatefulWidget implements PreferredSizeWidget {
-  final PageController pageController;
-  const MenuBar({Key? key, required this.pageController}) : super(key: key);
+  const MenuBar({Key? key}) : super(key: key);
 
   @override
   State<MenuBar> createState() => _MenuBarState();
@@ -16,23 +16,6 @@ class MenuBar extends StatefulWidget implements PreferredSizeWidget {
 class _MenuBarState extends State<MenuBar> {
   int _page = 0;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   //getUsername();
-  //   widget.pageController = PageController();
-  // }
-
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  //   pageController.dispose();
-  // }
-
-  void navigationTab(int page) {
-    widget.pageController.jumpToPage(page);
-  }
-
   void onPageChanged(int page) {
     setState(() {
       _page = page;
@@ -41,6 +24,8 @@ class _MenuBarState extends State<MenuBar> {
 
   @override
   Widget build(BuildContext context) {
+    MainPageController.addOnPageChangedCallback(onPageChanged);
+
     return AppBar(
       //toolbarHeight: 40,
       backgroundColor: Colors.white.withOpacity(0.8),
@@ -61,7 +46,7 @@ class _MenuBarState extends State<MenuBar> {
       ),
       actions: [
         TextButton(
-          onPressed: () => navigationTab(0),
+          onPressed: () => MainPageController.navigationTab(0),
           child: Text(
             "Accueil",
             style: TextStyle(
@@ -70,7 +55,7 @@ class _MenuBarState extends State<MenuBar> {
           ),
         ),
         TextButton(
-          onPressed: () => navigationTab(1),
+          onPressed: () => MainPageController.navigationTab(1),
           child: Text(
             "Boutique",
             style: TextStyle(
@@ -79,7 +64,7 @@ class _MenuBarState extends State<MenuBar> {
           ),
         ),
         TextButton(
-          onPressed: () => navigationTab(2),
+          onPressed: () => MainPageController.navigationTab(2),
           child: Text(
             "Mon compte",
             style: TextStyle(
@@ -88,7 +73,7 @@ class _MenuBarState extends State<MenuBar> {
           ),
         ),
         TextButton(
-          onPressed: () => navigationTab(3),
+          onPressed: () => MainPageController.navigationTab(3),
           child: Text(
             "Mentions légales",
             style: TextStyle(
@@ -101,7 +86,7 @@ class _MenuBarState extends State<MenuBar> {
         ),
         InkWell(
           child: Image.asset('image/basket.png', width: 28),
-          onTap: () => navigationTab(4),
+          onTap: () => MainPageController.navigationTab(4),
         ),
         const SizedBox(
           width: 16,
