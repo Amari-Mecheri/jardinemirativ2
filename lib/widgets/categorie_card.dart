@@ -24,16 +24,6 @@ class _CategorieCardState extends State<CategorieCard> {
       child: Container(
         width: 15 * 14,
         height: 30 * 14,
-        // width: MediaQuery.of(context).size.width > minScreenSize
-        //     ? MediaQuery.of(context).size.width > midScreenSize
-        //         ? 15 * 14
-        //         : 10 * 14
-        //     : 7.5 * 14,
-        // height: MediaQuery.of(context).size.width > minScreenSize
-        //     ? MediaQuery.of(context).size.width > midScreenSize
-        //         ? 30 * 14
-        //         : 20 * 14
-        //     : 15 * 14,
         margin: const EdgeInsets.only(bottom: 6 * 14),
         alignment: Alignment.center,
         decoration: BoxDecoration(

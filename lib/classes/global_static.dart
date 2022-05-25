@@ -1,12 +1,32 @@
 import 'dart:typed_data';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:jardinemirativ2/models/marque.dart';
+import 'package:image_picker/image_picker.dart';
 
 class GlobalStatic {
   static String? mentionsLegales;
   static MemoryImage? backgroundImage;
   static Uint8List? currentDetailLogo;
+  static String? currentPathLogo;
   static String? currentDetailTitle;
+
+  static List<Image> imageStore = [];
+  static List<Size> imageSizes = [];
+
+  static Function? onMarque;
+  static Function? onCategorie;
+
+  static Future<Set<Object>> getImage(String imgPath) async {
+    final buffer = await rootBundle.load(imgPath);
+    const Size imageSize = Size(0, 0);
+    Image image = Image.memory(
+      buffer.buffer.asUint8List(),
+      fit: BoxFit.fill,
+    );
+    return {image, imageSize};
+  }
 
   static initAssetImages() async {
     await rootBundle.load('image/rectangle.webp').then((byteData) {
@@ -19,12 +39,61 @@ class GlobalStatic {
     await rootBundle.load(path).then((byteData) {
       currentDetailLogo = byteData.buffer.asUint8List();
     });
+    // NetworkAssetBundle(path as Uri).load(path).then((byteData) {
+    //   var dataImage = byteData.buffer.asUint8List();
+    //   backgroundImage = MemoryImage(dataImage);
+    // });
   }
 
   static loadMentionsLegales(String path) async {
     if (mentionsLegales == null || mentionsLegales!.isEmpty) {
       mentionsLegales =
           await rootBundle.loadString('text/mentions_legales.txt');
+    }
+  }
+
+  static loadCarouselImages(List<String> images) {
+    for (var i = 0; i < images.length; i++) {
+      getImage(images[i]).then((value) {
+        imageStore.add(value.first as Image);
+        imageSizes.add(value.last as Size);
+      });
+    }
+  }
+
+  static pickImage(ImageSource source, double? maxSize) async {
+    final ImagePicker imagePicker = ImagePicker();
+    XFile? file;
+    if (maxSize != null && maxSize > 0) {
+      file = await imagePicker.pickImage(
+          source: source, maxHeight: maxSize, maxWidth: maxSize);
+    } else {
+      file = await imagePicker.pickImage(source: source);
+    }
+    if (file != null) {
+      return await file.readAsBytes();
+    }
+  }
+
+  static showSnackBar(String content, BuildContext context) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(content)));
+  }
+}
+
+class Marques {
+  static dynamic marques = FirebaseFirestore.instance
+      .collection('marques')
+      .snapshots()
+      .listen((event) {
+    loadMarques(event.docs);
+  });
+  static List<Marque> listMarques = [];
+
+  static loadMarques(List<QueryDocumentSnapshot<Map<String, dynamic>>> docs) {
+    listMarques.clear();
+    for (var element in docs) {
+      listMarques.add(element.data() as Marque);
     }
   }
 }

@@ -1,3 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:jardinemirativ2/consts/global_variables.dart';
 import 'package:url_strategy/url_strategy.dart';
@@ -7,12 +10,33 @@ import 'classes/main_page_controller.dart';
 import 'widgets/menu_bar.dart';
 
 void main() async {
+  setPathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
+  await initFirebase();
+  GlobalStatic.loadCarouselImages(carouselImages);
   GlobalStatic.loadMentionsLegales('text/mentions_legales.txt');
   await GlobalStatic.initAssetImages();
   //print(MainPageController.backgroundImage);
-  setPathUrlStrategy();
   runApp(const JardinEmirati());
+}
+
+Future<bool> initFirebase() async {
+  if (kIsWeb) {
+    await Firebase.initializeApp(
+      options: const FirebaseOptions(
+        apiKey: 'AIzaSyB5szaeCc4daBCO2_DUsytVtNydavfZeCA',
+        appId: '1:268884334164:web:5ba2ad67a4ab89a5083fc1',
+        messagingSenderId: '268884334164',
+        projectId: 'jardin-emerati',
+        storageBucket: 'jardin-emerati.appspot.com',
+      ),
+    );
+    if (FirebaseAuth.instance.currentUser == null) {
+      await FirebaseAuth.instance.signInAnonymously();
+    }
+    return true;
+  }
+  return false;
 }
 
 class JardinEmirati extends StatefulWidget {
@@ -34,14 +58,31 @@ class _JardinEmiratiState extends State<JardinEmirati> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Jardin Emirati",
-      home: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: const MenuBar(),
-        body: PageView(
-          controller: MainPageController.pageController,
-          onPageChanged: MainPageController.onPageChanged,
-          children: homeScreenItems,
-        ),
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.active) {
+            if (snapshot.hasData) {
+              return Scaffold(
+                extendBodyBehindAppBar: true,
+                appBar: const MenuBar(),
+                body: PageView(
+                  controller: MainPageController.pageController,
+                  onPageChanged: MainPageController.onPageChanged,
+                  children: homeScreenItems,
+                ),
+              );
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text('${snapshot.error}'),
+              );
+            }
+          }
+          //FirebaseAuth.instance.signInAnonymously();
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
       ),
     );
   }

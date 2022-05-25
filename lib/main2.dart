@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         children: [
           Carousel(
-            images: _images,
+            //images: _images,
             height: MediaQuery.of(context).size.width > minScreenSize
                 ? MediaQuery.of(context).size.width > midScreenSize
                     ? 700

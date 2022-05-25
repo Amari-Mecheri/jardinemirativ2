@@ -3,6 +3,7 @@ import 'package:jardinemirativ2/classes/global_static.dart';
 import 'package:jardinemirativ2/widgets/categorie_button.dart';
 import 'package:jardinemirativ2/widgets/categorie_card.dart';
 import '../widgets/footer.dart';
+import '../widgets/product_card.dart';
 
 class Categorie {
   late String name;
@@ -97,10 +98,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            // const SizedBox(
-                            //   height: 90,
-                            // ),
-
                             Center(
                               child: Container(
                                 width: 202.5,
@@ -108,8 +105,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 margin: const EdgeInsets.only(bottom: 28),
                                 decoration: BoxDecoration(
                                   image: DecorationImage(
-                                    image: MemoryImage(
-                                        GlobalStatic.currentDetailLogo!),
+                                    image: NetworkImage(
+                                        GlobalStatic.currentPathLogo!),
+                                    // image: MemoryImage(
+                                    //     GlobalStatic.currentDetailLogo!),
                                     fit: BoxFit.fill,
                                   ),
                                   borderRadius: BorderRadius.circular(23),
@@ -154,67 +153,36 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 direction: Axis.horizontal,
                                 alignment: WrapAlignment.spaceAround,
                                 crossAxisAlignment: WrapCrossAlignment.center,
-                                children: produits
-                                    .map(
-                                      (e) => CategorieCard(
-                                        logo: DecorationImage(
-                                          image: AssetImage(e.path),
-                                        ),
-                                        onTap: onCategorie,
-                                        categorieName: e.label,
-                                      ),
-                                    )
-                                    .toList(),
-//[
-                                // CategorieCard(
-                                //   logo: const DecorationImage(
-                                //     image:
-                                //         AssetImage('image/categories/1.png'),
-                                //   ),
-                                //   onTap: onCategorie,
-                                //   categorieName: "Categorie 1",
-                                // ),
-                                // CategorieCard(
-                                //   logo: const DecorationImage(
-                                //     image:
-                                //         AssetImage('image/categories/2.png'),
-                                //   ),
-                                //   onTap: onCategorie,
-                                //   categorieName: "Categorie 1",
-                                // ),
-                                // CategorieCard(
-                                //   logo: const DecorationImage(
-                                //     image:
-                                //         AssetImage('image/categories/3.png'),
-                                //   ),
-                                //   onTap: onCategorie,
-                                //   categorieName: "Categorie 1",
-                                // ),
-                                // CategorieCard(
-                                //   logo: const DecorationImage(
-                                //     image:
-                                //         AssetImage('image/categories/4.png'),
-                                //   ),
-                                //   onTap: onCategorie,
-                                //   categorieName: "Categorie 1",
-                                // ),
-                                // CategorieCard(
-                                //   logo: const DecorationImage(
-                                //     image:
-                                //         AssetImage('image/categories/5.png'),
-                                //   ),
-                                //   onTap: onCategorie,
-                                //   categorieName: "Categorie 1",
-                                // ),
-                                // CategorieCard(
-                                //   logo: const DecorationImage(
-                                //     image:
-                                //         AssetImage('image/categories/6.png'),
-                                //   ),
-                                //   onTap: onCategorie,
-                                //   categorieName: "Categorie 1",
-                                // ),
-                                //],
+                                children: [
+                                  if (indexOfTrue == 0 || indexOfTrue == 1)
+                                    ProductCard(path: 'image/products/1.jpg'),
+                                  if (indexOfTrue == 0 || indexOfTrue == 2)
+                                    ProductCard(path: 'image/products/2.jpeg'),
+                                  if (indexOfTrue == 0 || indexOfTrue == 3)
+                                    ProductCard(path: 'image/products/3.png'),
+                                  if (indexOfTrue == 0 || indexOfTrue == 4)
+                                    ProductCard(path: 'image/products/4.jpeg'),
+                                  if (indexOfTrue == 0 || indexOfTrue == 5)
+                                    ProductCard(path: 'image/products/5.png'),
+                                  if (indexOfTrue == 0 || indexOfTrue == 6)
+                                    ProductCard(path: 'image/products/6.png'),
+                                ],
+                                //     produits.map((e) {
+                                //   if (indexOfTrue == 0 ||
+                                //       (produits.indexOf(e) ==
+                                //               indexOfTrue * 2 - 2 ||
+                                //           produits.indexOf(e) ==
+                                //               indexOfTrue * 2 - 1)) {
+                                //     return CategorieCard(
+                                //       logo: DecorationImage(
+                                //         image: AssetImage(e.path),
+                                //       ),
+                                //       onTap: onCategorie,
+                                //       categorieName: e.label,
+                                //     );
+                                //   }
+                                //   return Container();
+                                // }).toList(),
                               ),
                             ),
                             const SizedBox(

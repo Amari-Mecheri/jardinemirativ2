@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:jardinemirativ2/classes/global_static.dart';
 
@@ -11,27 +12,60 @@ class MarquesContainer extends StatefulWidget {
   State<MarquesContainer> createState() => _MarquesContainerState();
 }
 
-onMarque(String path) async {
-  await GlobalStatic.setDetailLogo(path);
-  GlobalStatic.currentDetailTitle = "";
-  MainPageController.navigationTab(5);
-}
+// onMarque(String path) async {
+//   //await GlobalStatic.setDetailLogo(path);
+
+//   GlobalStatic.currentPathLogo = path;
+//   GlobalStatic.currentDetailTitle = "";
+//   MainPageController.navigationTab(5);
+// }
 
 class _MarquesContainerState extends State<MarquesContainer> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 28, top: 28),
-      child: SizedBox(
-        width: double.infinity,
-        child: Wrap(
-          direction: Axis.horizontal,
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance.collection('marques').snapshots(),
+      builder: (context,
+          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 28, top: 28),
+          child: SizedBox(
+            width: double.infinity,
+            child: Wrap(
+              direction: Axis.horizontal,
 
-          // mainAxisAlignment: MainAxisAlignment.spaceAround,
-          // crossAxisAlignment: CrossAxisAlignment.center,
-          alignment: WrapAlignment.spaceAround,
-          crossAxisAlignment: WrapCrossAlignment.center,
-          children: [
+              // mainAxisAlignment: MainAxisAlignment.spaceAround,
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              alignment: WrapAlignment.spaceAround,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: snapshot.data!.docs
+                  .map(
+                    (e) => MarqueCard(
+                      logo: DecorationImage(
+                          image: NetworkImage(e.data()['photoUrl'])),
+                      onTap: () {
+                        if (GlobalStatic.onMarque != null) {
+                          GlobalStatic.onMarque!(e.data());
+                        }
+                      },
+                    ),
+                  )
+                  .toList(),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+/*
+[
             MarqueCard(
               logo: const DecorationImage(
                   image: AssetImage('image/marques/1.png')),
@@ -88,8 +122,4 @@ class _MarquesContainerState extends State<MarquesContainer> {
               },
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
+*/

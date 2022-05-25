@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatefulWidget {
-  const ProductCard({Key? key}) : super(key: key);
+  String path;
+  ProductCard({Key? key, required this.path}) : super(key: key);
 
   @override
   State<ProductCard> createState() => _ProductCardState();
@@ -10,6 +11,109 @@ class ProductCard extends StatefulWidget {
 class _ProductCardState extends State<ProductCard> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    var heading = '\$2300 per month';
+    var subheading = '2 bed, 1 bath, 1300 sqft';
+    var cardImage = Image.asset('image/products/1.jpg').image;
+    var supportingText =
+        'Beautiful home to rent, recently refurbished with modern appliances...';
+    return SizedBox(
+      width: 300,
+      //height: 500,
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // ListTile(
+            //   leading: const Icon(Icons.add),
+            //   title: const Text('Card title 1'),
+            //   subtitle: Text(
+            //     'Secondary Text',
+            //     style: TextStyle(color: Colors.black.withOpacity(0.6)),
+            //   ),
+            // ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                'Greyhound divisively hello coldly wonderfully marginally far upon excluding.',
+                style: TextStyle(color: Colors.black.withOpacity(0.6)),
+              ),
+            ),
+            ButtonBar(
+              alignment: MainAxisAlignment.start,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    // Perform some action
+                  },
+                  child: const Text('Ajouter au panier'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    // Perform some action
+                  },
+                  child: const Text('Infiormations complémentaires'),
+                ),
+              ],
+            ),
+            Image.asset(widget.path),
+          ],
+        ),
+      ),
+    );
+    // Card(
+    //   elevation: 4.0,
+    //   child: SizedBox(
+    //     width: 200,
+    //     height: 300,
+    //     child: Column(
+    //       children: [
+    //         ListTile(
+    //           title: Text(heading),
+    //           subtitle: Text(subheading),
+    //           trailing: const Icon(Icons.favorite_outline),
+    //         ),
+    //         Center(
+    //           child: Ink.image(
+    //             image: cardImage,
+    //             fit: BoxFit.cover,
+    //           ),
+    //         ),
+    //         Container(
+    //           padding: const EdgeInsets.all(16.0),
+    //           alignment: Alignment.centerLeft,
+    //           child: Text(supportingText),
+    //         ),
+    //         ButtonBar(
+    //           children: [
+    //             TextButton(
+    //               child: const Text('Ajouter au panier'),
+    //               onPressed: () {/* ... */},
+    //             ),
+    //             TextButton(
+    //               child: const Text('En savoir plus'),
+    //               onPressed: () {/* ... */},
+    //             )
+    //           ],
+    //         )
+    //       ],
+    //     ),
+    //   ),
+    // );
+    // Column(
+    //   mainAxisAlignment: MainAxisAlignment.center,
+    //   crossAxisAlignment: CrossAxisAlignment.center,
+    //   children: [
+    //     Image.asset(
+    //       'image/products/1.jpg',
+    //       height: 140,
+    //       width: 70,
+    //     ),
+    //     const Text(
+    //         'Glory de Ahmed al maghribi un parfum oriental/fruité très chic et séduisant à la longue tenue !'),
+    //   ],
+    // );
   }
 }
