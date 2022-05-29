@@ -34,6 +34,7 @@ class _CategorieCardState extends State<CategorieCard> {
           width: 12 * 14,
           height: 27.2 * 14,
           decoration: BoxDecoration(
+            //color: Colors.blueGrey,
             border: Border.all(color: Colors.white),
             borderRadius: BorderRadius.circular(30),
           ),

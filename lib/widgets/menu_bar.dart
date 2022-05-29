@@ -57,7 +57,7 @@ class _MenuBarState extends State<MenuBar> {
         TextButton(
           onPressed: () => MainPageController.navigationTab(1),
           child: Text(
-            "Boutique",
+            "Admin",
             style: TextStyle(
                 color: _page == 1 ? webActiveMenuBar : webInActiveMenuBar,
                 fontWeight: FontWeight.bold),

@@ -13,6 +13,9 @@ void main() async {
   setPathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
   await initFirebase();
+  //Categories.initCategories();
+  // Marques.initMarques();
+  // Products.initProducts();
   GlobalStatic.loadCarouselImages(carouselImages);
   GlobalStatic.loadMentionsLegales('text/mentions_legales.txt');
   await GlobalStatic.initAssetImages();

@@ -8,6 +8,7 @@ import 'package:jardinemirativ2/models/categorie.dart';
 import 'package:uuid/uuid.dart';
 
 import '../models/marque.dart';
+import '../models/product.dart';
 import 'storage_methods.dart';
 
 class FirestoreMethods {
@@ -82,6 +83,51 @@ class FirestoreMethods {
     return res;
   }
 
+  Future<String> uploadProduct(
+    final String name,
+    String productId,
+    final String title,
+    final String description,
+    final double price,
+    final String marqueId,
+    final String genre,
+    final String categorieId,
+    final List likes,
+    final Uint8List image,
+  ) async {
+    String res = "Le nom de l'article est requis";
+    try {
+      if (name.isNotEmpty) {
+        String photoUrl = await StorageMethods().uploadImageToStorage(
+          'images',
+          image,
+        );
+
+        if (productId.isEmpty) productId = const Uuid().v1();
+
+        Product product = Product(
+          name: name,
+          productId: productId,
+          title: title,
+          description: description,
+          price: price,
+          photoUrl: photoUrl,
+          marqueId: marqueId,
+          genre: genre,
+          categorieId: categorieId,
+          likes: likes,
+        );
+
+        _firestore.collection('articles').doc(productId).set(
+              product.toJson(),
+            );
+        res = 'success';
+      }
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
   // Future<void> likePost(String postId, String uid, List likes) async {
   //   try {
   //     if (likes.contains(uid)) {

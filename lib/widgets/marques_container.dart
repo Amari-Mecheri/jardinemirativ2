@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:jardinemirativ2/classes/global_static.dart';
 
-import '../classes/main_page_controller.dart';
+import '../classes/services/marque_service.dart';
 import 'marque_card.dart';
 
 class MarquesContainer extends StatefulWidget {
@@ -24,10 +24,13 @@ class _MarquesContainerState extends State<MarquesContainer> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: FirebaseFirestore.instance.collection('marques').snapshots(),
+      stream: Marques()
+          .marques, //FirebaseFirestore.instance.collection('marques').snapshots(),
       builder: (context,
           AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+        //if (snapshot.connectionState == ConnectionState.waiting) {
+        if (Marques().listMarques.isEmpty &&
+            (snapshot.connectionState == ConnectionState.waiting)) {
           return const Center(
             child: CircularProgressIndicator(),
           );
@@ -43,14 +46,14 @@ class _MarquesContainerState extends State<MarquesContainer> {
               // crossAxisAlignment: CrossAxisAlignment.center,
               alignment: WrapAlignment.spaceAround,
               crossAxisAlignment: WrapCrossAlignment.center,
-              children: snapshot.data!.docs
+              children: Marques()
+                  .listMarques
                   .map(
                     (e) => MarqueCard(
-                      logo: DecorationImage(
-                          image: NetworkImage(e.data()['photoUrl'])),
+                      logo: DecorationImage(image: NetworkImage(e.photoUrl)),
                       onTap: () {
                         if (GlobalStatic.onMarque != null) {
-                          GlobalStatic.onMarque!(e.data());
+                          GlobalStatic.onMarque!(e);
                         }
                       },
                     ),

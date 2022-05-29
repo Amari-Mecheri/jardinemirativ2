@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../../classes/global_static.dart';
-import '../../widgets/admin/categorie_editor.dart';
+import '../../widgets/admin/product_editor.dart';
 
-class CategorieTab extends StatelessWidget {
-  const CategorieTab({Key? key}) : super(key: key);
+class ProductTab extends StatelessWidget {
+  const ProductTab({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,8 @@ class CategorieTab extends StatelessWidget {
           Stack(
             clipBehavior: Clip.none,
             children: [
-              IntrinsicHeight(
+              SizedBox(
+                height: 1000,
                 child: Stack(
                   children: [
                     ClipRect(
@@ -42,7 +43,7 @@ class CategorieTab extends StatelessWidget {
                         SizedBox(
                           height: 54,
                         ),
-                        CategorieEditor(),
+                        ProductEditor(),
                         // Padding(
                         //   padding: EdgeInsets.only(
                         //     left: MediaQuery.of(context).size.width * 0.1,

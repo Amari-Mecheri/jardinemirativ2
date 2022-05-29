@@ -5,11 +5,12 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../classes/global_static.dart';
-import '../consts/colors.dart';
-import '../consts/global_variables.dart';
-import '../ressources/firestore_methods.dart';
-import 'marques_container.dart';
+import '../../classes/global_static.dart';
+import '../../consts/colors.dart';
+import '../../consts/global_variables.dart';
+import '../../models/marque.dart';
+import '../../ressources/firestore_methods.dart';
+import '../marques_container.dart';
 import 'text_field_input.dart';
 
 class MarqueEditor extends StatefulWidget {
@@ -57,14 +58,14 @@ class _MarqueEditorState extends State<MarqueEditor> {
     if (_image != _defaultImage) _isDirty = true;
   }
 
-  void onMarque(Map<String, dynamic> data) async {
-    var uri = Uri.parse(data['photoUrl']);
+  void onMarque(Marque data) async {
+    var uri = Uri.parse(data.photoUrl);
     Uint8List im = await readBytes(uri);
 
     setState(() {
-      marqueId = data['marqueId'];
-      _nameController.text = data['name'];
-      _descriptionController.text = data['description'];
+      marqueId = data.marqueId;
+      _nameController.text = data.name;
+      _descriptionController.text = data.description;
       _image = im;
       checkIsDirty();
     });

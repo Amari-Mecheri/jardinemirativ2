@@ -29,6 +29,7 @@ class _SmallCategorieCardState extends State<SmallCategorieCard> {
         decoration: BoxDecoration(
           image: widget.logo,
           borderRadius: BorderRadius.circular(30),
+          //color: Colors.blueGrey,
         ),
         child: Container(
           width: 12 * 7,
@@ -42,7 +43,7 @@ class _SmallCategorieCardState extends State<SmallCategorieCard> {
             child: Text(
               widget.categorieName,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 28, color: Colors.white),
+              style: const TextStyle(fontSize: 14, color: Colors.white),
             ),
           ),
         ),

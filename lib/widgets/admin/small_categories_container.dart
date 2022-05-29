@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '../classes/global_static.dart';
+import '../../classes/global_static.dart';
+import '../../classes/services/categorie_service.dart';
 import 'small_categorie_card.dart';
 
 class SmallCategoriesContainer extends StatefulWidget {
@@ -12,16 +13,18 @@ class SmallCategoriesContainer extends StatefulWidget {
       _SmallCategoriesContainerState();
 }
 
-onCategorie() {}
+//onCategorie() {}
 
 class _SmallCategoriesContainerState extends State<SmallCategoriesContainer> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: FirebaseFirestore.instance.collection('categories').snapshots(),
+      stream: Categories()
+          .categories, //FirebaseFirestore.instance.collection('categories').snapshots(),
       builder: (context,
           AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+        if (Categories().listCategories.isEmpty &&
+            (snapshot.connectionState == ConnectionState.waiting)) {
           return const Center(
             child: CircularProgressIndicator(),
           );
@@ -32,17 +35,17 @@ class _SmallCategoriesContainerState extends State<SmallCategoriesContainer> {
             direction: Axis.horizontal,
             alignment: WrapAlignment.spaceAround,
             crossAxisAlignment: WrapCrossAlignment.center,
-            children: snapshot.data!.docs
+            children: Categories()
+                .listCategories
                 .map(
                   (e) => SmallCategorieCard(
-                    logo: DecorationImage(
-                        image: NetworkImage(e.data()['photoUrl'])),
+                    logo: DecorationImage(image: NetworkImage(e.photoUrl)),
                     onTap: () {
                       if (GlobalStatic.onCategorie != null) {
-                        GlobalStatic.onCategorie!(e.data());
+                        GlobalStatic.onCategorie!(e);
                       }
                     },
-                    categorieName: e.data()['name'],
+                    categorieName: e.name,
                   ),
                 )
                 .toList(),

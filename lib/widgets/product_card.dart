@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:jardinemirativ2/models/product.dart';
+
+import '../classes/global_static.dart';
 
 class ProductCard extends StatefulWidget {
-  String path;
-  ProductCard({Key? key, required this.path}) : super(key: key);
+  final Product product;
+  const ProductCard({Key? key, required this.product}) : super(key: key);
 
   @override
   State<ProductCard> createState() => _ProductCardState();
@@ -11,11 +14,11 @@ class ProductCard extends StatefulWidget {
 class _ProductCardState extends State<ProductCard> {
   @override
   Widget build(BuildContext context) {
-    var heading = '\$2300 per month';
-    var subheading = '2 bed, 1 bath, 1300 sqft';
-    var cardImage = Image.asset('image/products/1.jpg').image;
-    var supportingText =
-        'Beautiful home to rent, recently refurbished with modern appliances...';
+    // var heading = '\$2300 per month';
+    // var subheading = '2 bed, 1 bath, 1300 sqft';
+    // var cardImage = Image.asset('image/products/1.jpg').image;
+    // var supportingText =
+    //     'Beautiful home to rent, recently refurbished with modern appliances...';
     return SizedBox(
       width: 300,
       //height: 500,
@@ -37,7 +40,7 @@ class _ProductCardState extends State<ProductCard> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                'Greyhound divisively hello coldly wonderfully marginally far upon excluding.',
+                widget.product.description,
                 style: TextStyle(color: Colors.black.withOpacity(0.6)),
               ),
             ),
@@ -52,13 +55,15 @@ class _ProductCardState extends State<ProductCard> {
                 ),
                 TextButton(
                   onPressed: () {
-                    // Perform some action
+                    if (GlobalStatic.onMarque != null) {
+                      GlobalStatic.onProduct!(widget.product);
+                    }
                   },
-                  child: const Text('Infiormations complémentaires'),
+                  child: const Text('Informations complémentaires'),
                 ),
               ],
             ),
-            Image.asset(widget.path),
+            Image.network(widget.product.photoUrl),
           ],
         ),
       ),

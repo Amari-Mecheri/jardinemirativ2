@@ -5,6 +5,7 @@ import 'package:jardinemirativ2/widgets/gender_button.dart';
 
 import '../classes/global_static.dart';
 import '../classes/main_page_controller.dart';
+import '../models/marque.dart';
 import '../widgets/categories_container.dart';
 import '../widgets/footer.dart';
 import '../widgets/marques_container.dart';
@@ -12,10 +13,9 @@ import '../widgets/marques_container.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
-  void onMarque(Map<String, dynamic> data) async {
+  void onMarque(Marque data) async {
     //await GlobalStatic.setDetailLogo(data['photoUrl']);
-    GlobalStatic.currentPathLogo = data['photoUrl'];
-    GlobalStatic.currentDetailTitle = "";
+    GlobalStatic.detailScreenMarque = data;
     MainPageController.navigationTab(5);
   }
 

@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:jardinemirativ2/classes/global_static.dart';
+import 'package:jardinemirativ2/classes/services/product_service.dart';
 import 'package:jardinemirativ2/widgets/categorie_button.dart';
-import 'package:jardinemirativ2/widgets/categorie_card.dart';
+import '../classes/services/categorie_service.dart';
+import '../models/categorie.dart';
+import '../models/product.dart';
 import '../widgets/footer.dart';
 import '../widgets/product_card.dart';
 
-class Categorie {
-  late String name;
+class CategorieLabel {
+  late Categorie categorie;
   late bool activated;
 
-  Categorie(this.name, this.activated);
+  CategorieLabel(this.categorie, this.activated);
 }
 
-class Produit {
-  late String path;
-  late String label;
+// class Produit {
+//   late String path;
+//   late String label;
 
-  Produit(this.path, this.label);
-}
+//   Produit(this.path, this.label);
+// }
 
 class DetailsScreen extends StatefulWidget {
   const DetailsScreen({
@@ -29,33 +32,74 @@ class DetailsScreen extends StatefulWidget {
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
+  List<CategorieLabel> categorieLabels = [
+    // CategorieLabel('Tous les produits', true),
+    // CategorieLabel('Les parfums', false),
+    // CategorieLabel('Les parfums cheveux', false),
+    // CategorieLabel('Soins du corps', false),
+    // CategorieLabel('Encens', false),
+    // CategorieLabel('Parfums d' 'ambiance', false),
+    // CategorieLabel('Coffrets', false),
+  ];
+  List<Product> produits = [
+    // Produit('image/categories/1.png', 'Produit 1'),
+    // Produit('image/categories/2.png', 'Produit 2'),
+    // Produit('image/categories/3.png', 'Produit 3'),
+    // Produit('image/categories/4.png', 'Produit 4'),
+    // Produit('image/categories/5.png', 'Produit 5'),
+    // Produit('image/categories/6.png', 'Produit 6'),
+    // Produit('image/categories/1.png', 'Produit 7'),
+    // Produit('image/categories/2.png', 'Produit 8'),
+    // Produit('image/categories/3.png', 'Produit 9'),
+    // Produit('image/categories/4.png', 'Produit 10'),
+    // Produit('image/categories/5.png', 'Produit 11'),
+    // Produit('image/categories/6.png', 'Produit 12'),
+  ];
+  _DetailsScreenState() {
+    // print('_DetailsScreenState');
+    Products().products.listen((event) {
+      // print('_DetailsScreenState event');
+      setCategorieButtons();
+    });
+    //   setCategorieButtons();
+  }
+
+  setCategorieButtons() {
+    categorieLabels = [
+      CategorieLabel(
+          const Categorie(
+              description: '',
+              categorieId: '',
+              name: 'Toute catégorie',
+              photoUrl: ''),
+          true)
+    ];
+    produits = Products()
+        .distinct('marqueId', GlobalStatic.detailScreenMarque.marqueId);
+    List<Categorie> availableCategories =
+        Categories().fromListIds(produits.distinctValues('categorieId'));
+    for (var c in availableCategories) {
+      categorieLabels.add(CategorieLabel(c, false));
+    }
+    //produits.clear();
+    setState(() {
+      // print('salem');
+    });
+  }
+
   onCategorie() {}
-  List<Categorie> categories = [
-    Categorie('Tous les produits', true),
-    Categorie('Les parfums', false),
-    Categorie('Les parfums cheveux', false),
-    Categorie('Soins du corps', false),
-    Categorie('Encens', false),
-    Categorie('Parfums d' 'ambiance', false),
-    Categorie('Coffrets', false),
-  ];
-  List<Produit> produits = [
-    Produit('image/categories/1.png', 'Produit 1'),
-    Produit('image/categories/2.png', 'Produit 2'),
-    Produit('image/categories/3.png', 'Produit 3'),
-    Produit('image/categories/4.png', 'Produit 4'),
-    Produit('image/categories/5.png', 'Produit 5'),
-    Produit('image/categories/6.png', 'Produit 6'),
-    Produit('image/categories/1.png', 'Produit 7'),
-    Produit('image/categories/2.png', 'Produit 8'),
-    Produit('image/categories/3.png', 'Produit 9'),
-    Produit('image/categories/4.png', 'Produit 10'),
-    Produit('image/categories/5.png', 'Produit 11'),
-    Produit('image/categories/6.png', 'Produit 12'),
-  ];
+  @override
+  void initState() {
+    print('initState');
+    setCategorieButtons();
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    int indexOfTrue = categories.indexWhere((element) => element.activated);
+    int indexOfTrue =
+        categorieLabels.indexWhere((element) => element.activated);
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -105,8 +149,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 margin: const EdgeInsets.only(bottom: 28),
                                 decoration: BoxDecoration(
                                   image: DecorationImage(
-                                    image: NetworkImage(
-                                        GlobalStatic.currentPathLogo!),
+                                    image: NetworkImage(GlobalStatic
+                                        .detailScreenMarque.photoUrl),
                                     // image: MemoryImage(
                                     //     GlobalStatic.currentDetailLogo!),
                                     fit: BoxFit.fill,
@@ -127,18 +171,19 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               direction: Axis.horizontal,
                               alignment: WrapAlignment.spaceAround,
                               crossAxisAlignment: WrapCrossAlignment.center,
-                              children: categories
+                              children: categorieLabels
                                   .map(
                                     (e) => CategorieButton(
-                                      text: e.name,
+                                      text: e.categorie.name,
                                       activated: e.activated,
                                       onTap: () {
                                         setState(() {
                                           if (indexOfTrue > -1) {
-                                            categories[indexOfTrue].activated =
-                                                false;
+                                            categorieLabels[indexOfTrue]
+                                                .activated = false;
                                           }
-                                          categories[categories.indexOf(e)]
+                                          categorieLabels[
+                                                  categorieLabels.indexOf(e)]
                                               .activated = true;
                                         });
                                       },
@@ -153,20 +198,19 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 direction: Axis.horizontal,
                                 alignment: WrapAlignment.spaceAround,
                                 crossAxisAlignment: WrapCrossAlignment.center,
-                                children: [
-                                  if (indexOfTrue == 0 || indexOfTrue == 1)
-                                    ProductCard(path: 'image/products/1.jpg'),
-                                  if (indexOfTrue == 0 || indexOfTrue == 2)
-                                    ProductCard(path: 'image/products/2.jpeg'),
-                                  if (indexOfTrue == 0 || indexOfTrue == 3)
-                                    ProductCard(path: 'image/products/3.png'),
-                                  if (indexOfTrue == 0 || indexOfTrue == 4)
-                                    ProductCard(path: 'image/products/4.jpeg'),
-                                  if (indexOfTrue == 0 || indexOfTrue == 5)
-                                    ProductCard(path: 'image/products/5.png'),
-                                  if (indexOfTrue == 0 || indexOfTrue == 6)
-                                    ProductCard(path: 'image/products/6.png'),
-                                ],
+                                children: produits.map((e) {
+                                  String selectedCategorie =
+                                      categorieLabels[indexOfTrue]
+                                          .categorie
+                                          .categorieId;
+                                  if (selectedCategorie == "" ||
+                                      e.categorieId == selectedCategorie) {
+                                    return ProductCard(
+                                      product: e,
+                                    );
+                                  }
+                                  return Container();
+                                }).toList(),
                                 //     produits.map((e) {
                                 //   if (indexOfTrue == 0 ||
                                 //       (produits.indexOf(e) ==

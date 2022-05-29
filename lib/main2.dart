@@ -11,13 +11,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final _images = [
-    "image/header/1.png",
-    "image/header/2.png",
-    "image/header/3.png",
-    "image/header/4.png",
-    "image/header/5.png",
-  ];
+  // final _images = [
+  //   "image/header/1.png",
+  //   "image/header/2.png",
+  //   "image/header/3.png",
+  //   "image/header/4.png",
+  //   "image/header/5.png",
+  // ];
 
   @override
   Widget build(BuildContext context) {

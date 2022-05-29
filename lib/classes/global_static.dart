@@ -1,22 +1,23 @@
 import 'dart:typed_data';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:jardinemirativ2/models/marque.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../models/marque.dart';
 
 class GlobalStatic {
   static String? mentionsLegales;
   static MemoryImage? backgroundImage;
   static Uint8List? currentDetailLogo;
-  static String? currentPathLogo;
-  static String? currentDetailTitle;
-
+  static Marque detailScreenMarque =
+      const Marque(description: '', marqueId: '', name: '', photoUrl: '');
   static List<Image> imageStore = [];
   static List<Size> imageSizes = [];
+  static List<String> genres = ['', 'Femme', 'Homme', 'Mixte'];
 
   static Function? onMarque;
   static Function? onCategorie;
+  static Function? onProduct;
 
   static Future<Set<Object>> getImage(String imgPath) async {
     final buffer = await rootBundle.load(imgPath);
@@ -81,19 +82,28 @@ class GlobalStatic {
   }
 }
 
-class Marques {
-  static dynamic marques = FirebaseFirestore.instance
-      .collection('marques')
-      .snapshots()
-      .listen((event) {
-    loadMarques(event.docs);
-  });
-  static List<Marque> listMarques = [];
+// class Marques {
+//   static Stream<QuerySnapshot<Map<String, dynamic>>> marques =
+//       FirebaseFirestore.instance.collection('marques').snapshots();
+//   static dynamic marquesEvent = marques.listen((event) {
+//     print("marques listend");
+//     loadMarques(event.docs);
+//   });
 
-  static loadMarques(List<QueryDocumentSnapshot<Map<String, dynamic>>> docs) {
-    listMarques.clear();
-    for (var element in docs) {
-      listMarques.add(element.data() as Marque);
-    }
-  }
-}
+//   static List<Marque> listMarques = [];
+//   static List<String> listNomMarques = [];
+
+//   static loadMarques(List<QueryDocumentSnapshot<Map<String, dynamic>>> docs) {
+//     listMarques.clear();
+//     listNomMarques.clear();
+//     for (var element in docs) {
+//       var m = Marque.fromSnap(element);
+//       listMarques.add(m);
+//       listNomMarques.add(m.name);
+//     }
+//   }
+// }
+
+
+
+

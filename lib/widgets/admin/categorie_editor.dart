@@ -5,10 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../classes/global_static.dart';
-import '../consts/colors.dart';
-import '../consts/global_variables.dart';
-import '../ressources/firestore_methods.dart';
+import '../../classes/global_static.dart';
+import '../../consts/colors.dart';
+import '../../consts/global_variables.dart';
+import '../../models/categorie.dart';
+import '../../ressources/firestore_methods.dart';
 import 'small_categories_container.dart';
 import 'text_field_input.dart';
 
@@ -57,14 +58,14 @@ class _CategorieEditorState extends State<CategorieEditor> {
     if (_image != _defaultImage) _isDirty = true;
   }
 
-  void onCategorie(Map<String, dynamic> data) async {
-    var uri = Uri.parse(data['photoUrl']);
+  void onCategorie(Categorie data) async {
+    var uri = Uri.parse(data.photoUrl);
     Uint8List im = await readBytes(uri);
 
     setState(() {
-      categorieId = data['categorieId'];
-      _nameController.text = data['name'];
-      _descriptionController.text = data['description'];
+      categorieId = data.categorieId;
+      _nameController.text = data.name;
+      _descriptionController.text = data.description;
       _image = im;
       checkIsDirty();
     });
@@ -119,10 +120,9 @@ class _CategorieEditorState extends State<CategorieEditor> {
                               margin: const EdgeInsets.only(bottom: 6 * 7),
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
-                                color: Colors.blueGrey,
                                 image: DecorationImage(
                                   image: MemoryImage(_image!),
-                                  fit: BoxFit.fill,
+                                  //fit: BoxFit.fill,
                                 ),
                                 borderRadius: BorderRadius.circular(30),
                               ),
@@ -130,6 +130,7 @@ class _CategorieEditorState extends State<CategorieEditor> {
                                 width: 12 * 7,
                                 height: 27.2 * 7,
                                 decoration: BoxDecoration(
+                                  //color: Colors.blueGrey,
                                   border: Border.all(color: Colors.white),
                                   borderRadius: BorderRadius.circular(30),
                                 ),
@@ -139,7 +140,7 @@ class _CategorieEditorState extends State<CategorieEditor> {
                                     _nameController.text,
                                     textAlign: TextAlign.center,
                                     style: const TextStyle(
-                                        fontSize: 28, color: Colors.white),
+                                        fontSize: 14, color: Colors.white),
                                   ),
                                 ),
                               ),

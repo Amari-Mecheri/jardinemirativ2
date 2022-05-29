@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../classes/global_static.dart';
-import '../../widgets/marque_editor.dart';
+import '../../widgets/admin/marque_editor.dart';
 
 class MarqueTab extends StatelessWidget {
   const MarqueTab({Key? key}) : super(key: key);
