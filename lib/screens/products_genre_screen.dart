@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:jardinemirativ2/classes/global_static.dart';
 import 'package:jardinemirativ2/classes/services/product_service.dart';
+import 'package:jardinemirativ2/consts/global_variables.dart';
 import 'package:jardinemirativ2/widgets/categorie_button.dart';
+import 'package:jardinemirativ2/widgets/gender_button.dart';
 import '../classes/services/categorie_service.dart';
 import '../models/categorie.dart';
 import '../models/product.dart';
@@ -15,47 +17,19 @@ class CategorieLabel {
   CategorieLabel(this.categorie, this.activated);
 }
 
-// class Produit {
-//   late String path;
-//   late String label;
-
-//   Produit(this.path, this.label);
-// }
-
-class DetailsScreen extends StatefulWidget {
-  const DetailsScreen({
+class ProductsGenreScreen extends StatefulWidget {
+  const ProductsGenreScreen({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<DetailsScreen> createState() => _DetailsScreenState();
+  State<ProductsGenreScreen> createState() => _ProductsGenreScreenState();
 }
 
-class _DetailsScreenState extends State<DetailsScreen> {
-  List<CategorieLabel> categorieLabels = [
-    // CategorieLabel('Tous les produits', true),
-    // CategorieLabel('Les parfums', false),
-    // CategorieLabel('Les parfums cheveux', false),
-    // CategorieLabel('Soins du corps', false),
-    // CategorieLabel('Encens', false),
-    // CategorieLabel('Parfums d' 'ambiance', false),
-    // CategorieLabel('Coffrets', false),
-  ];
-  List<Product> produits = [
-    // Produit('image/categories/1.png', 'Produit 1'),
-    // Produit('image/categories/2.png', 'Produit 2'),
-    // Produit('image/categories/3.png', 'Produit 3'),
-    // Produit('image/categories/4.png', 'Produit 4'),
-    // Produit('image/categories/5.png', 'Produit 5'),
-    // Produit('image/categories/6.png', 'Produit 6'),
-    // Produit('image/categories/1.png', 'Produit 7'),
-    // Produit('image/categories/2.png', 'Produit 8'),
-    // Produit('image/categories/3.png', 'Produit 9'),
-    // Produit('image/categories/4.png', 'Produit 10'),
-    // Produit('image/categories/5.png', 'Produit 11'),
-    // Produit('image/categories/6.png', 'Produit 12'),
-  ];
-  _DetailsScreenState() {
+class _ProductsGenreScreenState extends State<ProductsGenreScreen> {
+  List<CategorieLabel> categorieLabels = [];
+  List<Product> produits = [];
+  _ProductsGenreScreenState() {
     // print('_DetailsScreenState');
     Products().products.listen((event) {
       // print('_DetailsScreenState event');
@@ -74,8 +48,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
               photoUrl: ''),
           true)
     ];
-    produits = Products()
-        .distinct('marqueId', GlobalStatic.detailScreenMarque.marqueId);
+    produits = Products().distinct('genre', GlobalStatic.detailScreenGenre);
     List<Categorie> availableCategories =
         Categories().fromListIds(produits.distinctValues('categorieId'));
     for (var c in availableCategories) {
@@ -90,7 +63,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   onCategorie() {}
   @override
   void initState() {
-    print('initState');
+    //print('initState');
     setCategorieButtons();
 
     super.initState();
@@ -143,29 +116,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Center(
-                              child: Container(
-                                width: 202.5,
-                                height: 130,
-                                margin: const EdgeInsets.only(bottom: 28),
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: NetworkImage(GlobalStatic
-                                        .detailScreenMarque.photoUrl),
-                                    // image: MemoryImage(
-                                    //     GlobalStatic.currentDetailLogo!),
-                                    fit: BoxFit.fill,
-                                  ),
-                                  borderRadius: BorderRadius.circular(23),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Color.fromARGB(41, 0, 0, 0),
-                                      offset: Offset(0.0, 5.0), //(x,y)
-                                      blurRadius: 3.0,
-                                      spreadRadius: 0.0,
-                                    )
-                                  ],
-                                ),
-                              ),
+                              child: GenderButton(
+                                  gender: GlobalStatic.detailScreenGenre
+                                      .fromString()),
                             ),
                             Wrap(
                               direction: Axis.horizontal,
@@ -211,22 +164,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                   }
                                   return Container();
                                 }).toList(),
-                                //     produits.map((e) {
-                                //   if (indexOfTrue == 0 ||
-                                //       (produits.indexOf(e) ==
-                                //               indexOfTrue * 2 - 2 ||
-                                //           produits.indexOf(e) ==
-                                //               indexOfTrue * 2 - 1)) {
-                                //     return CategorieCard(
-                                //       logo: DecorationImage(
-                                //         image: AssetImage(e.path),
-                                //       ),
-                                //       onTap: onCategorie,
-                                //       categorieName: e.label,
-                                //     );
-                                //   }
-                                //   return Container();
-                                // }).toList(),
                               ),
                             ),
                             const SizedBox(

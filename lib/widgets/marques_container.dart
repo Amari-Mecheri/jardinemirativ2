@@ -12,14 +12,6 @@ class MarquesContainer extends StatefulWidget {
   State<MarquesContainer> createState() => _MarquesContainerState();
 }
 
-// onMarque(String path) async {
-//   //await GlobalStatic.setDetailLogo(path);
-
-//   GlobalStatic.currentPathLogo = path;
-//   GlobalStatic.currentDetailTitle = "";
-//   MainPageController.navigationTab(5);
-// }
-
 class _MarquesContainerState extends State<MarquesContainer> {
   @override
   Widget build(BuildContext context) {

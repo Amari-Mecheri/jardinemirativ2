@@ -105,9 +105,9 @@ class _ProductEditorState extends State<ProductEditor> {
         _descriptionController.text.isNotEmpty ||
         _titleController.text.isNotEmpty ||
         _priceController.text.isNotEmpty ||
-        _marqueIdController.text.isNotEmpty ||
-        _categorieController.text.isNotEmpty ||
-        _genreController.text.isNotEmpty ||
+        _selectedMarque.isNotEmpty ||
+        _selectedCategorie.isNotEmpty ||
+        _selectedGenre.isNotEmpty ||
         productId.isNotEmpty;
     if (_image != _defaultImage) _isDirty = true;
   }
@@ -123,9 +123,9 @@ class _ProductEditorState extends State<ProductEditor> {
       _descriptionController.text = data.description;
       _titleController.text = data.title;
       _priceController.text = data.price.toString();
-      // _marqueIdController.text = data.name;
-      // _genreController.text = data.description;
-      // _categorieController.text = data.name;
+      _selectedMarque = data.marqueId;
+      _selectedGenre = data.genre;
+      _selectedCategorie = data.categorieId;
       _image = im;
       checkIsDirty();
     });
@@ -317,13 +317,15 @@ class _ProductEditorState extends State<ProductEditor> {
                               ? SizedBox(
                                   width: 400,
                                   child: DropdownButtonFormField(
-                                      //value: _selectedMarque,
-
+                                      value: _selectedMarque.isEmpty
+                                          ? null
+                                          : _selectedMarque,
                                       hint: const Text('Marques'),
                                       items: _marques,
                                       onChanged: (val) {
                                         setState(() {
                                           _selectedMarque = val.toString();
+                                          checkIsDirty();
                                         });
                                       }),
                                 )
@@ -333,12 +335,15 @@ class _ProductEditorState extends State<ProductEditor> {
                           SizedBox(
                             width: 400,
                             child: DropdownButtonFormField(
-                                //value: _selectedCategorie,
+                                value: _selectedCategorie.isEmpty
+                                    ? null
+                                    : _selectedCategorie,
                                 hint: const Text('Catégories'),
                                 items: _categories,
                                 onChanged: (val) {
                                   setState(() {
                                     _selectedCategorie = val.toString();
+                                    checkIsDirty();
                                   });
                                 }),
                           ),
@@ -348,12 +353,15 @@ class _ProductEditorState extends State<ProductEditor> {
                           SizedBox(
                             width: 400,
                             child: DropdownButtonFormField(
-                                //value: _selectedGenre,
+                                value: _selectedGenre.isEmpty
+                                    ? null
+                                    : _selectedGenre,
                                 hint: const Text('Genre'),
                                 items: _genres,
                                 onChanged: (val) {
                                   setState(() {
                                     _selectedGenre = val.toString();
+                                    checkIsDirty();
                                   });
                                 }),
                           ),
@@ -484,9 +492,9 @@ class _ProductEditorState extends State<ProductEditor> {
     _descriptionController.clear();
     _titleController.clear();
     _priceController.clear();
-    _categorieController.clear();
-    _genreController.clear();
-    _marqueIdController.clear();
+    _selectedMarque = '';
+    _selectedGenre = '';
+    _selectedCategorie = '';
     _image = _defaultImage;
   }
 

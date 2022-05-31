@@ -46,8 +46,9 @@ extension SearchTools on Products {
   List<Product> distinct(String column, String value,
       {bool Function(String a, String b) compareFunction = _equality}) {
     return listProducts
-        .where((element) =>
-            compareFunction(element.toJson()[column].toString(), value))
+        .where((element) => compareFunction(
+            element.toJson()[column].toString().toUpperCase(),
+            value.toUpperCase()))
         .toList();
   }
 }

@@ -55,13 +55,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisSize: MainAxisSize.max,
                         children: const [
                           GenderButton(
-                            gender: Gender.femmes,
+                            gender: Gender.femme,
                           ),
                           GenderButton(
                             gender: Gender.mixte,
                           ),
                           GenderButton(
-                            gender: Gender.hommes,
+                            gender: Gender.homme,
                           ),
                         ],
                         // children: const [

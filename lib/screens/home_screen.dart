@@ -84,13 +84,13 @@ class HomeScreen extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   children: const [
                     GenderButton(
-                      gender: Gender.femmes,
+                      gender: Gender.femme,
                     ),
                     GenderButton(
                       gender: Gender.mixte,
                     ),
                     GenderButton(
-                      gender: Gender.hommes,
+                      gender: Gender.homme,
                     ),
                   ],
                 ),

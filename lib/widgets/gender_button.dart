@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:jardinemirativ2/consts/colors.dart';
 import 'package:jardinemirativ2/consts/global_variables.dart';
 
+import '../classes/global_static.dart';
+import '../classes/main_page_controller.dart';
+
 class GenderButton extends StatelessWidget {
   final Gender gender;
 
@@ -28,7 +31,11 @@ class GenderButton extends StatelessWidget {
       boxShadow = false;
     }
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        //await GlobalStatic.setDetailLogo(data['photoUrl']);
+        GlobalStatic.detailScreenGenre = gender.name;
+        MainPageController.navigationTab(6);
+      },
       child: SizedBox(
         width: 56,
         height: height,
@@ -80,7 +87,7 @@ class GenderButton extends StatelessWidget {
             Positioned(
               top: -28,
               left: left + 28,
-              child: (gender == Gender.mixte) || (gender == Gender.femmes)
+              child: (gender == Gender.mixte) || (gender == Gender.femme)
                   ? Image.asset(
                       'image/femme.png',
                       width: 56,

@@ -11,6 +11,8 @@ class GlobalStatic {
   static Uint8List? currentDetailLogo;
   static Marque detailScreenMarque =
       const Marque(description: '', marqueId: '', name: '', photoUrl: '');
+  static String detailScreenGenre = '';
+
   static List<Image> imageStore = [];
   static List<Size> imageSizes = [];
   static List<String> genres = ['', 'Femme', 'Homme', 'Mixte'];
