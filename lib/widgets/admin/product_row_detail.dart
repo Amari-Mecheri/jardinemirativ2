@@ -81,11 +81,13 @@ class ProductRowDetail extends StatelessWidget {
               decoration: BoxDecoration(border: Border.all()),
               child: Align(
                 alignment: Alignment.center,
-                child: Text(Marques()
-                    .listMarques
-                    .where((element) => element.marqueId == product.marqueId)
-                    .first
-                    .name),
+                //Marques().distinct('marqueId', data.marqueId).first.name;
+                child: product.marqueId.isEmpty
+                    ? const Text('')
+                    : Text(Marques()
+                        .distinct('marqueId', product.marqueId)
+                        .first
+                        .name),
               ),
             ),
             Container(
@@ -105,12 +107,12 @@ class ProductRowDetail extends StatelessWidget {
               decoration: BoxDecoration(border: Border.all()),
               child: Align(
                 alignment: Alignment.center,
-                child: Text(Categories()
-                    .listCategories
-                    .where(
-                        (element) => element.categorieId == product.categorieId)
-                    .first
-                    .name),
+                child: product.categorieId.isEmpty
+                    ? const Text('')
+                    : Text(Categories()
+                        .distinct('categorieId', product.categorieId)
+                        .first
+                        .name),
               ),
             ),
             Container(
