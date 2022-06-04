@@ -14,10 +14,9 @@ class Products {
   Stream<QuerySnapshot<Map<String, dynamic>>> products =
       FirebaseFirestore.instance.collection('articles').snapshots();
   dynamic initProducts() {
-    products.listen((event) {
+    return products.listen((event) {
       loadProducts(event.docs);
     });
-    return null;
   }
 
   List<Product> listProducts = [];

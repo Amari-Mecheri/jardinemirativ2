@@ -31,10 +31,10 @@ class _ProductEditorState extends State<ProductEditor> {
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _marqueIdController = TextEditingController();
+  //final TextEditingController _marqueIdController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _genreController = TextEditingController();
-  final TextEditingController _categorieController = TextEditingController();
+  //final TextEditingController _genreController = TextEditingController();
+  //final TextEditingController _categorieController = TextEditingController();
 
   late String _selectedMarque = "";
   final List<DropdownMenuItem<String>> _marques = [
@@ -133,355 +133,352 @@ class _ProductEditorState extends State<ProductEditor> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Container(
-            padding: MediaQuery.of(context).size.width > minScreenSize
-                ? EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width / 10)
-                : const EdgeInsets.symmetric(horizontal: 32),
-            width: double.infinity,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                productId.isEmpty
-                    ? const Text(
-                        'Enregistrer un article',
-                        style: TextStyle(
-                          fontSize: 32,
-                        ),
-                      )
-                    : const Text(
-                        "Modifier l'article",
-                        style: TextStyle(
-                          fontSize: 32,
-                        ),
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Container(
+          padding: MediaQuery.of(context).size.width > minScreenSize
+              ? EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width / 10)
+              : const EdgeInsets.symmetric(horizontal: 32),
+          width: double.infinity,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              productId.isEmpty
+                  ? const Text(
+                      'Enregistrer un article',
+                      style: TextStyle(
+                        fontSize: 32,
                       ),
-                Stack(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        selectImage(-1);
-                        // setState(() {
-                        //   checkIsDirty();
-                        // });
-                      },
-                      child: _image == null
-                          ? const SizedBox(
-                              width: 15 * 7,
-                              height: 30 * 7,
-                            )
-                          : Container(
-                              width: 15 * 7,
-                              height: 30 * 7,
-                              margin: const EdgeInsets.only(bottom: 6 * 7),
-                              alignment: Alignment.center,
+                    )
+                  : const Text(
+                      "Modifier l'article",
+                      style: TextStyle(
+                        fontSize: 32,
+                      ),
+                    ),
+              Stack(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      selectImage(-1);
+                      // setState(() {
+                      //   checkIsDirty();
+                      // });
+                    },
+                    child: _image == null
+                        ? const SizedBox(
+                            width: 15 * 7,
+                            height: 30 * 7,
+                          )
+                        : Container(
+                            width: 15 * 7,
+                            height: 30 * 7,
+                            margin: const EdgeInsets.only(bottom: 6 * 7),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.blueGrey),
+                              //color: Colors.blueGrey,
+                              image: DecorationImage(
+                                image: MemoryImage(_image!),
+                                //fit: BoxFit.fill,
+                              ),
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: Container(
+                              width: 12 * 7,
+                              height: 27.2 * 7,
                               decoration: BoxDecoration(
-                                border: Border.all(color: Colors.blueGrey),
-                                //color: Colors.blueGrey,
-                                image: DecorationImage(
-                                  image: MemoryImage(_image!),
-                                  //fit: BoxFit.fill,
-                                ),
+                                //border: Border.all(color: Colors.white),
                                 borderRadius: BorderRadius.circular(30),
                               ),
-                              child: Container(
-                                width: 12 * 7,
-                                height: 27.2 * 7,
-                                decoration: BoxDecoration(
-                                  //border: Border.all(color: Colors.white),
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                alignment: Alignment.center,
-                                child: Center(
-                                  child: Text(
-                                    _nameController.text,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                        fontSize: 14, color: Colors.white),
-                                  ),
+                              alignment: Alignment.center,
+                              child: Center(
+                                child: Text(
+                                  _nameController.text,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                      fontSize: 14, color: Colors.white),
                                 ),
                               ),
                             ),
+                          ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    left: 40,
+                    child: IconButton(
+                      onPressed: () {
+                        selectImage(-1);
+                      },
+                      icon: const Icon(
+                        Icons.add_a_photo,
+                      ),
                     ),
-                    Positioned(
-                      bottom: 0,
-                      left: 40,
-                      child: IconButton(
-                        onPressed: () {
-                          selectImage(-1);
-                        },
-                        icon: const Icon(
-                          Icons.add_a_photo,
+                  ),
+                ],
+              ),
+              // Nom
+              Column(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black, width: 3),
+                    ),
+                    child: Wrap(
+                      direction: Axis.horizontal,
+                      alignment: WrapAlignment.spaceAround,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 400,
+                          child: TextFieldInput(
+                            textEditingController: _nameController,
+                            hintText: "Saisissez le nom de l'article",
+                            onChanged: (val) {
+                              setState(() {
+                                checkIsDirty();
+                              });
+                            },
+                            validator: (val) {
+                              if (val!.isEmpty) {
+                                return "Saisissez un nom de l'article";
+                              }
+                              return '';
+                            },
+                            textInputType: TextInputType.text,
+                          ),
                         ),
-                      ),
-                    ),
-                  ],
-                ),
-                // Nom
-                Column(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black, width: 3),
-                      ),
-                      child: Wrap(
-                        direction: Axis.horizontal,
-                        alignment: WrapAlignment.spaceAround,
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 400,
-                            child: TextFieldInput(
-                              textEditingController: _nameController,
-                              hintText: "Saisissez le nom de l'article",
-                              onChanged: (val) {
-                                setState(() {
-                                  checkIsDirty();
-                                });
-                              },
-                              validator: (val) {
-                                if (val!.isEmpty) {
-                                  return "Saisissez un nom de l'article";
-                                }
-                                return '';
-                              },
-                              textInputType: TextInputType.text,
-                            ),
+                        // const SizedBox(
+                        //   height: 24,
+                        // ),
+                        // titre
+                        SizedBox(
+                          width: 400,
+                          child: TextFieldInput(
+                            textEditingController: _titleController,
+                            hintText: "Saisissez un titre",
+                            onChanged: (val) {
+                              setState(() {
+                                checkIsDirty();
+                              });
+                            },
+                            textInputType: TextInputType.text,
                           ),
-                          // const SizedBox(
-                          //   height: 24,
-                          // ),
-                          // titre
-                          SizedBox(
-                            width: 400,
-                            child: TextFieldInput(
-                              textEditingController: _titleController,
-                              hintText: "Saisissez un titre",
+                        ),
+                        // const SizedBox(
+                        //   height: 24,
+                        // ),
+                        // Description
+                        SizedBox(
+                          width: 400,
+                          child: TextFieldInput(
+                              hintText:
+                                  "Saisissez une description de l'article",
                               onChanged: (val) {
                                 setState(() {
                                   checkIsDirty();
                                 });
                               },
                               textInputType: TextInputType.text,
-                            ),
+                              textEditingController: _descriptionController),
+                        ),
+                        // const SizedBox(
+                        //   height: 24,
+                        // ),
+                        // Prix
+                        SizedBox(
+                          width: 400,
+                          child: TextFieldInput(
+                            textEditingController: _priceController,
+                            hintText: "Saisissez le prix",
+                            onChanged: (val) {
+                              setState(() {
+                                checkIsDirty();
+                              });
+                            },
+                            validator: (val) {
+                              if (val!.isEmpty) {
+                                return "Saisissez un prix";
+                              }
+                              return '';
+                            },
+                            textInputType: TextInputType.text,
                           ),
-                          // const SizedBox(
-                          //   height: 24,
-                          // ),
-                          // Description
-                          SizedBox(
-                            width: 400,
-                            child: TextFieldInput(
-                                hintText:
-                                    "Saisissez une description de l'article",
-                                onChanged: (val) {
-                                  setState(() {
-                                    checkIsDirty();
-                                  });
-                                },
-                                textInputType: TextInputType.text,
-                                textEditingController: _descriptionController),
-                          ),
-                          // const SizedBox(
-                          //   height: 24,
-                          // ),
-                          // Prix
-                          SizedBox(
-                            width: 400,
-                            child: TextFieldInput(
-                              textEditingController: _priceController,
-                              hintText: "Saisissez le prix",
+                        ),
+                        // const SizedBox(
+                        //   height: 24,
+                        // ),
+                        //Marque
+                        //const Text('La marque :'),
+                        _marques.isNotEmpty
+                            ? SizedBox(
+                                width: 400,
+                                child: DropdownButtonFormField(
+                                    value: _selectedMarque.isEmpty
+                                        ? null
+                                        : _selectedMarque,
+                                    hint: const Text('Marques'),
+                                    items: _marques,
+                                    onChanged: (val) {
+                                      setState(() {
+                                        _selectedMarque = val.toString();
+                                        checkIsDirty();
+                                      });
+                                    }),
+                              )
+                            : Container(),
+                        // // Categorie
+                        //const Text('La catégorie :'),
+                        SizedBox(
+                          width: 400,
+                          child: DropdownButtonFormField(
+                              value: _selectedCategorie.isEmpty
+                                  ? null
+                                  : _selectedCategorie,
+                              hint: const Text('Catégories'),
+                              items: _categories,
                               onChanged: (val) {
                                 setState(() {
+                                  _selectedCategorie = val.toString();
                                   checkIsDirty();
                                 });
-                              },
-                              validator: (val) {
-                                if (val!.isEmpty) {
-                                  return "Saisissez un prix";
-                                }
-                                return '';
-                              },
-                              textInputType: TextInputType.text,
-                            ),
-                          ),
-                          // const SizedBox(
-                          //   height: 24,
-                          // ),
-                          //Marque
-                          //const Text('La marque :'),
-                          _marques.isNotEmpty
-                              ? SizedBox(
-                                  width: 400,
-                                  child: DropdownButtonFormField(
-                                      value: _selectedMarque.isEmpty
-                                          ? null
-                                          : _selectedMarque,
-                                      hint: const Text('Marques'),
-                                      items: _marques,
-                                      onChanged: (val) {
-                                        setState(() {
-                                          _selectedMarque = val.toString();
-                                          checkIsDirty();
-                                        });
-                                      }),
-                                )
-                              : Container(),
-                          // // Categorie
-                          //const Text('La catégorie :'),
-                          SizedBox(
-                            width: 400,
-                            child: DropdownButtonFormField(
-                                value: _selectedCategorie.isEmpty
-                                    ? null
-                                    : _selectedCategorie,
-                                hint: const Text('Catégories'),
-                                items: _categories,
-                                onChanged: (val) {
-                                  setState(() {
-                                    _selectedCategorie = val.toString();
-                                    checkIsDirty();
-                                  });
-                                }),
-                          ),
+                              }),
+                        ),
 
-                          // Genre
-                          //const Text('Le genre :'),
-                          SizedBox(
-                            width: 400,
-                            child: DropdownButtonFormField(
-                                value: _selectedGenre.isEmpty
-                                    ? null
-                                    : _selectedGenre,
-                                hint: const Text('Genre'),
-                                items: _genres,
-                                onChanged: (val) {
-                                  setState(() {
-                                    _selectedGenre = val.toString();
-                                    checkIsDirty();
-                                  });
-                                }),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Flexible(
-                      child: InkWell(
-                        onTap: _isDirty
-                            ? () {
+                        // Genre
+                        //const Text('Le genre :'),
+                        SizedBox(
+                          width: 400,
+                          child: DropdownButtonFormField(
+                              value: _selectedGenre.isEmpty
+                                  ? null
+                                  : _selectedGenre,
+                              hint: const Text('Genre'),
+                              items: _genres,
+                              onChanged: (val) {
                                 setState(() {
-                                  clearEditor();
+                                  _selectedGenre = val.toString();
                                   checkIsDirty();
                                 });
-                              }
-                            : null,
-                        child: Container(
-                          width: 400,
-                          alignment: Alignment.center,
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          decoration: const ShapeDecoration(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(4),
-                              ),
+                              }),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Flexible(
+                    child: InkWell(
+                      onTap: _isDirty
+                          ? () {
+                              setState(() {
+                                clearEditor();
+                                checkIsDirty();
+                              });
+                            }
+                          : null,
+                      child: Container(
+                        width: 400,
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        decoration: const ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(4),
                             ),
-                            color: greyColor,
                           ),
-                          child: Text(
-                            'Annuler',
-                            style: TextStyle(
-                                color:
-                                    _isDirty ? primaryColor : secondaryColor),
-                          ),
+                          color: greyColor,
+                        ),
+                        child: Text(
+                          'Annuler',
+                          style: TextStyle(
+                              color: _isDirty ? primaryColor : secondaryColor),
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      width: 100,
-                    ),
-                    Flexible(
-                      child: InkWell(
-                        onTap: _nameController.text.isNotEmpty
-                            ? () {
-                                postProduct(
-                                        context,
-                                        _nameController.text,
-                                        productId,
-                                        _titleController.text,
-                                        _descriptionController.text,
-                                        double.tryParse(_priceController.text)!,
-                                        _selectedMarque,
-                                        _selectedGenre,
-                                        _selectedCategorie,
-                                        likes,
-                                        _image!)
-                                    .then((value) {
-                                  if (value) {
-                                    setState(() {
-                                      clearEditor();
-                                      checkIsDirty();
-                                    });
-                                  }
-                                });
-                              }
-                            : null,
-                        child: Container(
-                          width: 400,
-                          alignment: Alignment.center,
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          decoration: const ShapeDecoration(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(4),
-                              ),
+                  ),
+                  const SizedBox(
+                    width: 100,
+                  ),
+                  Flexible(
+                    child: InkWell(
+                      onTap: _nameController.text.isNotEmpty
+                          ? () {
+                              postProduct(
+                                      context,
+                                      _nameController.text,
+                                      productId,
+                                      _titleController.text,
+                                      _descriptionController.text,
+                                      double.tryParse(_priceController.text)!,
+                                      _selectedMarque,
+                                      _selectedGenre,
+                                      _selectedCategorie,
+                                      likes,
+                                      _image!)
+                                  .then((value) {
+                                if (value) {
+                                  setState(() {
+                                    clearEditor();
+                                    checkIsDirty();
+                                  });
+                                }
+                              });
+                            }
+                          : null,
+                      child: Container(
+                        width: 400,
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        decoration: const ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(4),
                             ),
-                            color: blueColor,
                           ),
-                          child: _isLoading
-                              ? const Center(
-                                  child: SizedBox(
-                                    height: 16,
-                                    width: 16,
-                                    child: CircularProgressIndicator(
-                                        color: primaryColor),
+                          color: blueColor,
+                        ),
+                        child: _isLoading
+                            ? const Center(
+                                child: SizedBox(
+                                  height: 16,
+                                  width: 16,
+                                  child: CircularProgressIndicator(
+                                      color: primaryColor),
+                                ),
+                              )
+                            : productId.isEmpty
+                                ? Text(
+                                    'Enregistrer',
+                                    style: TextStyle(
+                                        color: _nameController.text.isNotEmpty
+                                            ? primaryColor
+                                            : secondaryColor),
+                                  )
+                                : const Text(
+                                    'Modifier',
+                                    style: TextStyle(color: primaryColor),
                                   ),
-                                )
-                              : productId.isEmpty
-                                  ? Text(
-                                      'Enregistrer',
-                                      style: TextStyle(
-                                          color: _nameController.text.isNotEmpty
-                                              ? primaryColor
-                                              : secondaryColor),
-                                    )
-                                  : const Text(
-                                      'Modifier',
-                                      style: TextStyle(color: primaryColor),
-                                    ),
-                        ),
                       ),
                     ),
-                  ],
-                ),
-                // const SizedBox(
-                //   height: 400,
-                // ),
-              ],
-            ),
+                  ),
+                ],
+              ),
+              // const SizedBox(
+              //   height: 400,
+              // ),
+            ],
           ),
-          const ProductsList(),
-        ],
-      ),
+        ),
+        const ProductsList(),
+      ],
     );
   }
 

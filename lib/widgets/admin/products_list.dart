@@ -1,8 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:jardinemirativ2/widgets/admin/product_row_detail.dart';
+import 'package:pluto_grid/pluto_grid.dart';
+//import 'package:jardinemirativ2/widgets/admin/product_row_detail.dart';
 
+import '../../classes/global_static.dart';
 import '../../classes/services/product_service.dart';
+import '../../models/product.dart';
+import '../grid_datasources/product_datagrid.dart';
 
 class ProductsList extends StatefulWidget {
   const ProductsList({Key? key}) : super(key: key);
@@ -14,6 +18,10 @@ class ProductsList extends StatefulWidget {
 //onProduct() {}
 
 class _ProductsListState extends State<ProductsList> {
+  late PlutoGridStateManager stateManager;
+
+  PlutoRow? lastRow;
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -27,17 +35,27 @@ class _ProductsListState extends State<ProductsList> {
             child: CircularProgressIndicator(),
           );
         }
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 28, top: 28),
-          child: Column(
-            children: Products()
-                .listProducts
-                .map(
-                  (e) => ProductRowDetail(
-                    product: e,
-                  ),
-                )
-                .toList(),
+        return SizedBox(
+          height: 600,
+          child: PlutoGrid(
+            onLoaded: (event) {
+              stateManager = event.stateManager;
+              stateManager.addListener(() {
+                if (GlobalStatic.onProduct != null &&
+                    stateManager.currentRow != null &&
+                    stateManager.currentRow != lastRow &&
+                    stateManager.currentRow!.cells['productId'] != null) {
+                  GlobalStatic.onProduct!(Products()
+                      .distinct('productId',
+                          stateManager.currentRow!.cells['productId']!.value)
+                      .first);
+                }
+                lastRow = stateManager.currentRow;
+                if (!stateManager.hasFocus) lastRow = null;
+              });
+            },
+            columns: ProductGridData().columns,
+            rows: ProductGridData().getRows(),
           ),
         );
       },
