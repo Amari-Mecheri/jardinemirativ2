@@ -68,4 +68,12 @@ extension SearchProducts on List<Product> {
     return where((element) =>
         compareFunction(element.toJson()[column].toString(), value)).toList();
   }
+
+  Product fromId(String id) {
+    return firstWhere((element) => element.productId == id);
+  }
+
+  List<Product> fromListIds(List<String> ids) {
+    return where((element) => ids.contains(element.productId)).toList();
+  }
 }

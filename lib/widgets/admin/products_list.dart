@@ -5,7 +5,6 @@ import 'package:pluto_grid/pluto_grid.dart';
 
 import '../../classes/global_static.dart';
 import '../../classes/services/product_service.dart';
-import '../../models/product.dart';
 import '../grid_datasources/product_datagrid.dart';
 
 class ProductsList extends StatefulWidget {

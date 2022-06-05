@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jardinemirativ2/consts/global_variables.dart';
+import 'package:jardinemirativ2/models/categorie.dart';
 import 'package:jardinemirativ2/widgets/carousel.dart';
 import 'package:jardinemirativ2/widgets/gender_button.dart';
 
@@ -14,14 +15,37 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   void onMarque(Marque data) async {
-    //await GlobalStatic.setDetailLogo(data['photoUrl']);
-    GlobalStatic.detailScreenMarque = data;
-    MainPageController.navigationTab(5);
+    GlobalStatic.searchScreenMarque = data;
+    MainPageController.navigationTab(6);
+  }
+
+  void onGenre(Gender data) async {
+    GlobalStatic.searchScreenGenre = data.name.capitalize();
+    MainPageController.navigationTab(6);
+  }
+
+  void onCategorie(Categorie data) async {
+    GlobalStatic.searchScreenCategorie = data;
+    MainPageController.navigationTab(6);
+  }
+
+  void initSearchCriterias() {
+    GlobalStatic.searchScreenMarque = const Marque(
+        description: '',
+        marqueId: '',
+        name: 'Toutes les marques',
+        photoUrl: '');
+    GlobalStatic.searchScreenCategorie = const Categorie(
+        categorieId: '', description: '', name: '', photoUrl: '');
+    GlobalStatic.searchScreenGenre = 'Tous';
+    GlobalStatic.onMarque = onMarque;
+    GlobalStatic.onCategorie = onCategorie;
+    GlobalStatic.onGenre = onGenre;
   }
 
   @override
   Widget build(BuildContext context) {
-    GlobalStatic.onMarque = onMarque;
+    initSearchCriterias();
     return SingleChildScrollView(
       child: Column(
         children: [

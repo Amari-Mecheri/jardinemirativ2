@@ -3,56 +3,59 @@ import 'package:jardinemirativ2/classes/global_static.dart';
 import 'package:jardinemirativ2/classes/services/product_service.dart';
 import 'package:jardinemirativ2/widgets/categorie_button.dart';
 import '../classes/services/categorie_service.dart';
+import '../classes/services/marque_service.dart';
 import '../models/categorie.dart';
+import '../models/marque.dart';
 import '../models/product.dart';
 import '../widgets/footer.dart';
 import '../widgets/product_card.dart';
 
-class CategorieLabel {
-  late Categorie categorie;
+class MarqueLabel {
+  late Marque marque;
   late bool activated;
 
-  CategorieLabel(this.categorie, this.activated);
+  MarqueLabel(this.marque, this.activated);
 }
 
-class ProductsMarqueScreen extends StatefulWidget {
-  const ProductsMarqueScreen({
+class ProductsCategorieScreen extends StatefulWidget {
+  const ProductsCategorieScreen({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<ProductsMarqueScreen> createState() => _ProductsMarqueScreenState();
+  State<ProductsCategorieScreen> createState() =>
+      _ProductsCategorieScreenState();
 }
 
-class _ProductsMarqueScreenState extends State<ProductsMarqueScreen> {
-  List<CategorieLabel> categorieLabels = [];
+class _ProductsCategorieScreenState extends State<ProductsCategorieScreen> {
+  List<MarqueLabel> marqueLabels = [];
   List<Product> produits = [];
-  _ProductsMarqueScreenState() {
+  _ProductsCategorieScreenState() {
     // print('_DetailsScreenState');
     Products().products.listen((event) {
       // print('_DetailsScreenState event');
-      setCategorieButtons();
+      setMarqueButtons();
     });
     //   setCategorieButtons();
   }
 
-  setCategorieButtons() {
-    categorieLabels = [
-      CategorieLabel(
-          const Categorie(
-              description: '',
-              categorieId: '',
-              name: 'Toute catégorie',
-              photoUrl: ''),
+  setMarqueButtons() {
+    marqueLabels = [
+      MarqueLabel(
+          const Marque(
+            description: '',
+            marqueId: '',
+            name: 'Toutes les marques',
+            photoUrl: '',
+          ),
           true)
     ];
-    produits = Products()
-        .distinct('marqueId', GlobalStatic.searchScreenMarque.marqueId);
-    List<Categorie> availableCategories = Categories()
-        .listCategories
-        .fromListIds(produits.distinctValues('categorieId'));
-    for (var c in availableCategories) {
-      categorieLabels.add(CategorieLabel(c, false));
+    produits = Products().distinct(
+        'categorieId', GlobalStatic.searchScreenCategorie.categorieId);
+    List<Marque> availableMarques =
+        Marques().listMarques.fromListIds(produits.distinctValues('marqueId'));
+    for (var m in availableMarques) {
+      marqueLabels.add(MarqueLabel(m, false));
     }
     //produits.clear();
     setState(() {
@@ -64,15 +67,14 @@ class _ProductsMarqueScreenState extends State<ProductsMarqueScreen> {
   @override
   void initState() {
     //print('initState');
-    setCategorieButtons();
+    setMarqueButtons();
 
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    int indexOfTrue =
-        categorieLabels.indexWhere((element) => element.activated);
+    int indexOfTrue = marqueLabels.indexWhere((element) => element.activated);
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -123,7 +125,7 @@ class _ProductsMarqueScreenState extends State<ProductsMarqueScreen> {
                                 decoration: BoxDecoration(
                                   image: DecorationImage(
                                     image: NetworkImage(GlobalStatic
-                                        .searchScreenMarque.photoUrl),
+                                        .searchScreenCategorie.photoUrl),
                                     // image: MemoryImage(
                                     //     GlobalStatic.currentDetailLogo!),
                                     fit: BoxFit.fill,
@@ -144,19 +146,18 @@ class _ProductsMarqueScreenState extends State<ProductsMarqueScreen> {
                               direction: Axis.horizontal,
                               alignment: WrapAlignment.spaceAround,
                               crossAxisAlignment: WrapCrossAlignment.center,
-                              children: categorieLabels
+                              children: marqueLabels
                                   .map(
                                     (e) => CategorieButton(
-                                      text: e.categorie.name,
+                                      text: e.marque.name,
                                       activated: e.activated,
                                       onTap: () {
                                         setState(() {
                                           if (indexOfTrue > -1) {
-                                            categorieLabels[indexOfTrue]
+                                            marqueLabels[indexOfTrue]
                                                 .activated = false;
                                           }
-                                          categorieLabels[
-                                                  categorieLabels.indexOf(e)]
+                                          marqueLabels[marqueLabels.indexOf(e)]
                                               .activated = true;
                                         });
                                       },
@@ -173,9 +174,7 @@ class _ProductsMarqueScreenState extends State<ProductsMarqueScreen> {
                                 crossAxisAlignment: WrapCrossAlignment.center,
                                 children: produits.map((e) {
                                   String selectedCategorie =
-                                      categorieLabels[indexOfTrue]
-                                          .categorie
-                                          .categorieId;
+                                      marqueLabels[indexOfTrue].marque.marqueId;
                                   if (selectedCategorie == "" ||
                                       e.categorieId == selectedCategorie) {
                                     return ProductCard(

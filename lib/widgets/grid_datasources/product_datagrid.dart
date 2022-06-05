@@ -89,15 +89,12 @@ class ProductGridData {
               'price': PlutoCell(value: p.price),
               'marque': PlutoCell(
                 value: p.marqueId.isNotEmpty
-                    ? Marques().distinct('marqueId', p.marqueId).first.name
+                    ? Marques().listMarques.fromId(p.marqueId).name
                     : '',
               ),
               'categorie': PlutoCell(
                 value: p.categorieId.isNotEmpty
-                    ? Categories()
-                        .distinct('categorieId', p.categorieId)
-                        .first
-                        .name
+                    ? Categories().listCategories.fromId(p.categorieId).name
                     : '',
               ),
               'genre': PlutoCell(value: p.genre),

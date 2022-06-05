@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:jardinemirativ2/models/categorie.dart';
 
 import '../models/marque.dart';
 
@@ -9,16 +10,19 @@ class GlobalStatic {
   static String? mentionsLegales;
   static MemoryImage? backgroundImage;
   static Uint8List? currentDetailLogo;
-  static Marque detailScreenMarque =
+  static Marque searchScreenMarque =
       const Marque(description: '', marqueId: '', name: '', photoUrl: '');
-  static String detailScreenGenre = '';
+  static Categorie searchScreenCategorie =
+      const Categorie(categorieId: '', description: '', name: '', photoUrl: '');
+  static String searchScreenGenre = '';
 
   static List<Image> imageStore = [];
   static List<Size> imageSizes = [];
-  static List<String> genres = ['', 'Femme', 'Homme', 'Mixte'];
+  static List<String> genres = ['Femme', 'Homme', 'Mixte', 'Tous'];
 
   static Function? onMarque;
   static Function? onCategorie;
+  static Function? onGenre;
   static Function? onProduct;
 
   static Future<Set<Object>> getImage(String imgPath) async {

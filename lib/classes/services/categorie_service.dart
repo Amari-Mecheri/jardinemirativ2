@@ -31,10 +31,9 @@ class Categories {
   }
 }
 
-extension SearchTools on Categories {
+extension SearchTools on List<Categorie> {
   List<String> distinctValues(String column) {
-    return listCategories
-        .map((element) => element.toJson()[column].toString())
+    return map((element) => element.toJson()[column].toString())
         .toSet()
         .toList();
   }
@@ -45,19 +44,15 @@ extension SearchTools on Categories {
 
   List<Categorie> distinct(String column, String value,
       {bool Function(String a, String b) compareFunction = _equality}) {
-    return listCategories
-        .where((element) =>
-            compareFunction(element.toJson()[column].toString(), value))
-        .toList();
+    return where((element) =>
+        compareFunction(element.toJson()[column].toString(), value)).toList();
   }
 
   Categorie fromId(String id) {
-    return listCategories.firstWhere((element) => element.categorieId == id);
+    return firstWhere((element) => element.categorieId == id);
   }
 
   List<Categorie> fromListIds(List<String> ids) {
-    return listCategories
-        .where((element) => ids.contains(element.categorieId))
-        .toList();
+    return where((element) => ids.contains(element.categorieId)).toList();
   }
 }

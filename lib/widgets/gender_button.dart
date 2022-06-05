@@ -5,7 +5,6 @@ import 'package:jardinemirativ2/consts/colors.dart';
 import 'package:jardinemirativ2/consts/global_variables.dart';
 
 import '../classes/global_static.dart';
-import '../classes/main_page_controller.dart';
 
 class GenderButton extends StatelessWidget {
   final Gender gender;
@@ -32,9 +31,9 @@ class GenderButton extends StatelessWidget {
     }
     return InkWell(
       onTap: () {
-        //await GlobalStatic.setDetailLogo(data['photoUrl']);
-        GlobalStatic.detailScreenGenre = gender.name;
-        MainPageController.navigationTab(6);
+        if (GlobalStatic.onGenre != null) {
+          GlobalStatic.onGenre!(gender);
+        }
       },
       child: SizedBox(
         width: 56,

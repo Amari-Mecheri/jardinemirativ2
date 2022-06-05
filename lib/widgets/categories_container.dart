@@ -12,8 +12,6 @@ class CategoriesContainer extends StatefulWidget {
   State<CategoriesContainer> createState() => _CategoriesContainerState();
 }
 
-//onCategorie() {}
-
 class _CategoriesContainerState extends State<CategoriesContainer> {
   @override
   Widget build(BuildContext context) {

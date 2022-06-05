@@ -48,9 +48,10 @@ class _ProductsGenreScreenState extends State<ProductsGenreScreen> {
               photoUrl: ''),
           true)
     ];
-    produits = Products().distinct('genre', GlobalStatic.detailScreenGenre);
-    List<Categorie> availableCategories =
-        Categories().fromListIds(produits.distinctValues('categorieId'));
+    produits = Products().distinct('genre', GlobalStatic.searchScreenGenre);
+    List<Categorie> availableCategories = Categories()
+        .listCategories
+        .fromListIds(produits.distinctValues('categorieId'));
     for (var c in availableCategories) {
       categorieLabels.add(CategorieLabel(c, false));
     }
@@ -100,7 +101,7 @@ class _ProductsGenreScreenState extends State<ProductsGenreScreen> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(
-                        top: 80,
+                        top: 100,
                         bottom: 20,
                         left: MediaQuery.of(context).size.width * 0.04,
                         right: MediaQuery.of(context).size.width * 0.04,
@@ -117,8 +118,8 @@ class _ProductsGenreScreenState extends State<ProductsGenreScreen> {
                           children: [
                             Center(
                               child: GenderButton(
-                                  gender: GlobalStatic.detailScreenGenre
-                                      .fromString()),
+                                  gender: GlobalStatic.searchScreenGenre
+                                      .genderFromString()),
                             ),
                             Wrap(
                               direction: Axis.horizontal,

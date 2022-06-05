@@ -31,10 +31,9 @@ class Marques {
   }
 }
 
-extension SearchTools on Marques {
+extension SearchTools on List<Marque> {
   List<String> distinctValues(String column) {
-    return listMarques
-        .map((element) => element.toJson()[column].toString())
+    return map((element) => element.toJson()[column].toString())
         .toSet()
         .toList();
   }
@@ -45,9 +44,15 @@ extension SearchTools on Marques {
 
   List<Marque> distinct(String column, String value,
       {bool Function(String a, String b) compareFunction = _equality}) {
-    return listMarques
-        .where((element) =>
-            compareFunction(element.toJson()[column].toString(), value))
-        .toList();
+    return where((element) =>
+        compareFunction(element.toJson()[column].toString(), value)).toList();
+  }
+
+  Marque fromId(String id) {
+    return firstWhere((element) => element.marqueId == id);
+  }
+
+  List<Marque> fromListIds(List<String> ids) {
+    return where((element) => ids.contains(element.marqueId)).toList();
   }
 }

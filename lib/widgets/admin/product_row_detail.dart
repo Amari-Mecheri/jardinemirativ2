@@ -85,6 +85,7 @@ class ProductRowDetail extends StatelessWidget {
                 child: product.marqueId.isEmpty
                     ? const Text('')
                     : Text(Marques()
+                        .listMarques
                         .distinct('marqueId', product.marqueId)
                         .first
                         .name),
@@ -110,6 +111,7 @@ class ProductRowDetail extends StatelessWidget {
                 child: product.categorieId.isEmpty
                     ? const Text('')
                     : Text(Categories()
+                        .listCategories
                         .distinct('categorieId', product.categorieId)
                         .first
                         .name),
