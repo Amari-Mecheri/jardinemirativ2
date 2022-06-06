@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:jardinemirativ2/classes/services/product_service.dart';
 import 'package:jardinemirativ2/widgets/dropdowns/dropdown_categorie.dart';
@@ -48,24 +49,6 @@ class _ProducsSearchState extends State<ProducsSearch> {
 
   @override
   Widget build(BuildContext context) {
-    List<Product> produits = Products().listProducts;
-    if (GlobalStatic.searchScreenMarque.marqueId.isNotEmpty) {
-      produits = produits
-          .where((p) => p.marqueId == GlobalStatic.searchScreenMarque.marqueId)
-          .toList();
-    }
-    if (GlobalStatic.searchScreenCategorie.categorieId.isNotEmpty) {
-      produits = produits
-          .where((p) =>
-              p.categorieId == GlobalStatic.searchScreenCategorie.categorieId)
-          .toList();
-    }
-    if (GlobalStatic.searchScreenGenre.isNotEmpty &&
-        GlobalStatic.searchScreenGenre.toUpperCase() != 'TOUS') {
-      produits = produits
-          .where((p) => p.genre == GlobalStatic.searchScreenGenre)
-          .toList();
-    }
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -188,16 +171,33 @@ class _ProducsSearchState extends State<ProducsSearch> {
                             Padding(
                               padding:
                                   const EdgeInsets.only(bottom: 28, top: 28),
-                              child: Wrap(
-                                direction: Axis.horizontal,
-                                alignment: WrapAlignment.spaceAround,
-                                crossAxisAlignment: WrapCrossAlignment.center,
-                                children: produits
-                                    .map((e) => ProductCard(
-                                          product: e,
-                                        ))
-                                    .toList(),
-                              ),
+                              child: StreamBuilder(
+                                  stream: Products().products,
+                                  builder: (context,
+                                      AsyncSnapshot<
+                                              QuerySnapshot<
+                                                  Map<String, dynamic>>>
+                                          snapshot) {
+                                    if (Products().listProducts.isEmpty &&
+                                        (snapshot.connectionState ==
+                                            ConnectionState.waiting)) {
+                                      return const Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    }
+                                    List<Product> produits = searchProducts();
+                                    return Wrap(
+                                      direction: Axis.horizontal,
+                                      alignment: WrapAlignment.spaceAround,
+                                      crossAxisAlignment:
+                                          WrapCrossAlignment.center,
+                                      children: produits
+                                          .map((e) => ProductCard(
+                                                product: e,
+                                              ))
+                                          .toList(),
+                                    );
+                                  }),
                             ),
                             const SizedBox(
                               height: 24,
@@ -218,5 +218,27 @@ class _ProducsSearchState extends State<ProducsSearch> {
         ],
       ),
     );
+  }
+
+  List<Product> searchProducts() {
+    List<Product> produits = Products().listProducts;
+    if (GlobalStatic.searchScreenMarque.marqueId.isNotEmpty) {
+      produits = produits
+          .where((p) => p.marqueId == GlobalStatic.searchScreenMarque.marqueId)
+          .toList();
+    }
+    if (GlobalStatic.searchScreenCategorie.categorieId.isNotEmpty) {
+      produits = produits
+          .where((p) =>
+              p.categorieId == GlobalStatic.searchScreenCategorie.categorieId)
+          .toList();
+    }
+    if (GlobalStatic.searchScreenGenre.isNotEmpty &&
+        GlobalStatic.searchScreenGenre.toUpperCase() != 'TOUS') {
+      produits = produits
+          .where((p) => p.genre == GlobalStatic.searchScreenGenre)
+          .toList();
+    }
+    return produits;
   }
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:jardinemirativ2/classes/services/categorie_service.dart';
 import 'package:jardinemirativ2/models/product.dart';
 
-import '../classes/global_static.dart';
+import '../classes/services/marque_service.dart';
 
 class ProductCard extends StatefulWidget {
   final Product product;
@@ -14,21 +15,53 @@ class ProductCard extends StatefulWidget {
 class _ProductCardState extends State<ProductCard> {
   @override
   Widget build(BuildContext context) {
-    // var heading = '\$2300 per month';
-    // var subheading = '2 bed, 1 bath, 1300 sqft';
-    // var cardImage = Image.asset('image/products/1.jpg').image;
-    // var supportingText =
-    //     'Beautiful home to rent, recently refurbished with modern appliances...';
     return SizedBox(
       width: 300,
       //height: 500,
       child: Card(
+        elevation: 4,
         clipBehavior: Clip.antiAlias,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisSize: MainAxisSize.min,
           children: [
+            Center(
+              child: Text(
+                widget.product.name,
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: widget.product.marqueId.isNotEmpty
+                  ? Text(
+                      Marques()
+                          .listMarques
+                          .fromId(widget.product.marqueId)
+                          .name,
+                      style: const TextStyle(color: Colors.blueGrey),
+                    )
+                  : const Text(""),
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: widget.product.categorieId.isNotEmpty
+                  ? Text(
+                      Categories()
+                          .listCategories
+                          .fromId(widget.product.categorieId)
+                          .name,
+                      style: const TextStyle(color: Colors.blueGrey),
+                    )
+                  : const Text(""),
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                  widget.product.genre == "Tous" ? "" : widget.product.genre),
+            ),
             // ListTile(
             //   leading: const Icon(Icons.add),
             //   title: const Text('Card title 1'),
@@ -40,30 +73,65 @@ class _ProductCardState extends State<ProductCard> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                widget.product.description,
+                widget.product.title,
                 style: TextStyle(color: Colors.black.withOpacity(0.6)),
               ),
             ),
-            ButtonBar(
-              alignment: MainAxisAlignment.start,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    // Perform some action
-                  },
-                  child: const Text('Ajouter au panier'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    if (GlobalStatic.onMarque != null) {
-                      GlobalStatic.onProduct!(widget.product);
-                    }
-                  },
-                  child: const Text('Informations complémentaires'),
-                ),
-              ],
-            ),
+            // ButtonBar(
+            //   alignment: MainAxisAlignment.start,
+            //   children: [
+            //     TextButton(
+            //       onPressed: () {
+            //         // Perform some action
+            //       },
+            //       child: const Text('Ajouter au panier'),
+            //     ),
+            //     TextButton(
+            //       onPressed: () {
+            //         if (GlobalStatic.onMarque != null) {
+            //           GlobalStatic.onProduct!(widget.product);
+            //         }
+            //       },
+            //       child: const Text('Informations complémentaires'),
+            //     ),
+            //   ],
+            // ),
             Image.network(widget.product.photoUrl),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: IntrinsicHeight(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "${widget.product.price.toStringAsFixed(2)}€",
+                      style: const TextStyle(
+                          fontSize: 16, color: Colors.redAccent),
+                    ),
+                    Row(
+                      children: [
+                        const VerticalDivider(
+                          width: 10,
+                          thickness: 1,
+                          color: Colors.black,
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        InkWell(
+                            onTap: () {},
+                            child: const Icon(Icons.add_shopping_cart,
+                                color: Colors.green)),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
