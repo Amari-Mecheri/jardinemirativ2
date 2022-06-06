@@ -3,18 +3,21 @@
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:jardinemirativ2/models/categorie.dart';
 import 'package:uuid/uuid.dart';
 
 import '../models/marque.dart';
+import '../models/order.dart';
+import '../models/order_line.dart';
 import '../models/product.dart';
 import 'storage_methods.dart';
 
 class FirestoreMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  //upload post
+  //upload Marque
   Future<String> uploadMarque(
     String marqueId,
     String name,
@@ -38,7 +41,7 @@ class FirestoreMethods {
           photoUrl: photoUrl,
         );
 
-        _firestore.collection('marques').doc(marqueId).set(
+        await _firestore.collection('marques').doc(marqueId).set(
               marque.toJson(),
             );
         res = 'success';
@@ -72,7 +75,7 @@ class FirestoreMethods {
           photoUrl: photoUrl,
         );
 
-        _firestore.collection('categories').doc(categorieId).set(
+        await _firestore.collection('categories').doc(categorieId).set(
               categorie.toJson(),
             );
         res = 'success';
@@ -118,7 +121,7 @@ class FirestoreMethods {
           likes: likes,
         );
 
-        _firestore.collection('articles').doc(productId).set(
+        await _firestore.collection('articles').doc(productId).set(
               product.toJson(),
             );
         res = 'success';
@@ -128,6 +131,47 @@ class FirestoreMethods {
     }
     return res;
   }
+
+  Future<String> uploadOrder(
+    final String userId,
+    String orderId,
+    final String status,
+    final String deliveryAddress,
+    final DateTime date,
+    final double total,
+    final double vat,
+  ) async {
+    String res = "L'ID utilisateur est requis";
+    try {
+      if (userId.isNotEmpty) {
+        if (orderId.isEmpty) orderId = const Uuid().v1();
+
+        Order order = Order(
+          userId: userId,
+          orderId: orderId,
+          status: status,
+          deliveryAddress: deliveryAddress,
+          date: date,
+          total: total,
+          vat: vat,
+        );
+
+        await _firestore
+            .collection('users')
+            .doc(userId)
+            .collection('orders')
+            .doc(orderId)
+            .set(
+              order.toJson(),
+            );
+        res = 'success';
+      }
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
+
   // Future<void> likePost(String postId, String uid, List likes) async {
   //   try {
   //     if (likes.contains(uid)) {
@@ -145,6 +189,42 @@ class FirestoreMethods {
   //     }
   //   }
   // }
+
+  Future<String> addToBasket(
+    String basketId,
+    String productId,
+    int quantity,
+    double unitPrice,
+  ) async {
+    String res =
+        "Le panier, le produit, la quantité et le prix unitaire sont requis";
+    try {
+      if (basketId.isNotEmpty &&
+          productId.isNotEmpty &&
+          quantity > 0 &&
+          unitPrice > 0) {
+        OrderLine orderLine = OrderLine(
+          basketId: basketId,
+          productId: productId,
+          quantity: quantity,
+          unitPrice: unitPrice,
+        );
+
+        await _firestore
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection('orders')
+            .doc(basketId)
+            .set(
+              orderLine.toJson(),
+            );
+        res = 'success';
+      }
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
 
   Future<void> deleteMarque(String marqueId) async {
     try {

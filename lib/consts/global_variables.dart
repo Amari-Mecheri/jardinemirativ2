@@ -36,6 +36,24 @@ extension GenderTool on String {
   }
 }
 
+enum OrderStatus {
+  ouvert,
+  livre,
+  annule,
+  paye,
+  tous,
+}
+
+extension OrderStatusTool on String {
+  OrderStatus orderStatusFromString() {
+    if (toUpperCase() == 'OUVERT') return OrderStatus.ouvert;
+    if (toUpperCase() == 'LIVRE') return OrderStatus.ouvert;
+    if (toUpperCase() == 'ANNULE') return OrderStatus.annule;
+    if (toUpperCase() == 'PAYE') return OrderStatus.paye;
+    return OrderStatus.tous;
+  }
+}
+
 extension StringExtension on String {
   String capitalize() {
     return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";

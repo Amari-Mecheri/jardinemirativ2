@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,7 +8,7 @@ import '../models/marque.dart';
 class GlobalStatic {
   static String? mentionsLegales;
   static MemoryImage? backgroundImage;
-  static Uint8List? currentDetailLogo;
+  //static Uint8List? currentDetailLogo;
   static Marque searchScreenMarque =
       const Marque(description: '', marqueId: '', name: '', photoUrl: '');
   static Categorie searchScreenCategorie =
@@ -19,6 +18,13 @@ class GlobalStatic {
   static List<Image> imageStore = [];
   static List<Size> imageSizes = [];
   static List<String> genres = ['Femme', 'Homme', 'Mixte', 'Tous'];
+  static List<String> orderStatus = [
+    'Ouvert',
+    'Livré',
+    'Annulé',
+    'Payé',
+    'Tous'
+  ];
 
   static Function? onMarque;
   static Function? onCategorie;
@@ -42,15 +48,15 @@ class GlobalStatic {
     });
   }
 
-  static setDetailLogo(String path) async {
-    await rootBundle.load(path).then((byteData) {
-      currentDetailLogo = byteData.buffer.asUint8List();
-    });
-    // NetworkAssetBundle(path as Uri).load(path).then((byteData) {
-    //   var dataImage = byteData.buffer.asUint8List();
-    //   backgroundImage = MemoryImage(dataImage);
-    // });
-  }
+  // static setDetailLogo(String path) async {
+  //   await rootBundle.load(path).then((byteData) {
+  //     currentDetailLogo = byteData.buffer.asUint8List();
+  //   });
+  //   // NetworkAssetBundle(path as Uri).load(path).then((byteData) {
+  //   //   var dataImage = byteData.buffer.asUint8List();
+  //   //   backgroundImage = MemoryImage(dataImage);
+  //   // });
+  // }
 
   static loadMentionsLegales(String path) async {
     if (mentionsLegales == null || mentionsLegales!.isEmpty) {
