@@ -36,7 +36,9 @@ class Order {
       userId: snapshot['userId'],
       status: snapshot['status'],
       deliveryAddress: snapshot['deliveryAddress'],
-      date: snapshot['date'],
+      date: snapshot['date'].toDate(),
+      // date: DateTime.fromMillisecondsSinceEpoch(
+      //    int.parse(snapshot['date'].toString())),
       total: snapshot['total'],
       vat: snapshot['vat'],
     );

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:jardinemirativ2/consts/global_variables.dart';
 import 'package:jardinemirativ2/models/order_line.dart';
 import '../../models/order.dart';
+import '../../models/product.dart';
 import '../../ressources/firestore_methods.dart';
 
 class Orders {
@@ -29,6 +30,7 @@ class Orders {
 
   List<Order>? listOrders;
   Order? basket;
+  Stream<QuerySnapshot<Map<String, dynamic>>>? basketLinesStream;
   List<OrderLine> basketLines = [];
 
   loadOrders(List<QueryDocumentSnapshot<Map<String, dynamic>>> docs) async {
@@ -46,26 +48,54 @@ class Orders {
       }
     }
     if (basket == null) {
-      print("creating basket");
-      FirestoreMethods().uploadOrder(FirebaseAuth.instance.currentUser!.uid, '',
-          OrderStatus.ouvert.name, '', DateTime.now(), 0, 0);
+      await FirestoreMethods().uploadOrder(
+        FirebaseAuth.instance.currentUser!.uid,
+        '',
+        OrderStatus.ouvert.name,
+        '',
+        DateTime.now(),
+        0,
+        0,
+      );
     } else {
-      QuerySnapshot<Map<String, dynamic>> lines = await FirebaseFirestore
-          .instance
+      basketLinesStream = FirebaseFirestore.instance
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .collection('orders')
           .doc(basket!.orderId)
           .collection('orderLines')
-          .get();
+          .snapshots();
 
-      var data = lines.docs;
-      basketLines.clear();
-      for (var line in data) {
-        var p = OrderLine.fromSnap(line);
-        basketLines.add(p);
-      }
+      basketLinesStream?.listen((event) {
+        basketLines.clear();
+        for (var element in event.docs) {
+          var ol = OrderLine.fromSnap(element);
+          basketLines.add(ol);
+        }
+      });
+      // QuerySnapshot<Map<String, dynamic>> lines = await FirebaseFirestore
+      //     .instance
+      //     .collection('users')
+      //     .doc(FirebaseAuth.instance.currentUser!.uid)
+      //     .collection('orders')
+      //     .doc(basket!.orderId)
+      //     .collection('orderLines')
+      //     .get();
+
+      // var data = lines.docs.;
+      // basketLines.clear();
+      // for (var line in data) {
+      //   var p = OrderLine.fromSnap(line);
+      //   basketLines.add(p);
+      // }
     }
+  }
+}
+
+extension BasketTools on Orders {
+  Future<String> addToBasket(Product product) async {
+    return await FirestoreMethods()
+        .addToBasket('', basket!.orderId, product.productId, 1, product.price);
   }
 }
 

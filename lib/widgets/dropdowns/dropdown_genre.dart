@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:jardinemirativ2/consts/global_variables.dart';
 
@@ -16,16 +17,23 @@ class DropDownGenres extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<String>(
+    return DropdownButton2<String>(
+      buttonWidth: 170,
+      buttonHeight: 28,
       hint: const Text('Tout genre'),
       value: GlobalStatic.searchScreenGenre,
-      icon: const Icon(Icons.arrow_downward),
-      elevation: 16,
-      style: const TextStyle(color: webInActiveMenuBar),
-      underline: Container(
-        height: 2,
-        color: webActiveMenuBar,
+      buttonPadding: const EdgeInsets.only(left: 8, right: 4),
+      buttonDecoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(14),
+        color: const Color.fromARGB(255, 243, 234, 224),
       ),
+      buttonElevation: 2,
+      //icon: const Icon(Icons.arrow_downward),
+      //elevation: 16,
+      style: const TextStyle(
+          color: webInActiveMenuBar, fontWeight: FontWeight.bold),
+
+      underline: Container(),
       onChanged: (String? newValue) {
         //GlobalStatic.searchScreenGenre = newValue!;
         onChanged(newValue!.genderFromString());

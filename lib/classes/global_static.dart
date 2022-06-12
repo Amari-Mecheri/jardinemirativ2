@@ -6,6 +6,7 @@ import 'package:jardinemirativ2/models/categorie.dart';
 import '../models/marque.dart';
 
 class GlobalStatic {
+  static ValueNotifier<int> mainPage = ValueNotifier(0);
   static String? mentionsLegales;
   static MemoryImage? backgroundImage;
   //static Uint8List? currentDetailLogo;

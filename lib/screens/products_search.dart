@@ -76,7 +76,7 @@ class _ProducsSearchState extends State<ProducsSearch> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(
-                        top: 80,
+                        top: 60,
                         bottom: 20,
                         left: MediaQuery.of(context).size.width * 0.04,
                         right: MediaQuery.of(context).size.width * 0.04,
@@ -91,82 +91,86 @@ class _ProducsSearchState extends State<ProducsSearch> {
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            Center(
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  DropDownMarques(
-                                      items: [
-                                        const Marque(
-                                            description: '',
-                                            marqueId: '',
-                                            name: 'Toutes les marques',
-                                            photoUrl: ''),
-                                        ...Marques().listMarques
-                                      ],
-                                      onChanged: (String marqueId) {
-                                        if (GlobalStatic.onMarque != null) {
-                                          setState(() {
-                                            if (marqueId.isNotEmpty) {
-                                              GlobalStatic.onMarque!(Marques()
-                                                  .listMarques
-                                                  .fromId(marqueId));
-                                            } else {
-                                              GlobalStatic.onMarque!(
-                                                const Marque(
-                                                    description: '',
-                                                    marqueId: '',
-                                                    name: 'Toutes les marques',
-                                                    photoUrl: ''),
-                                              );
-                                            }
-                                          });
-                                        }
-                                      }),
-                                  DropDownGenres(
-                                      items: GlobalStatic.genres,
-                                      onChanged: (genre) {
-                                        if (GlobalStatic.onGenre != null) {
-                                          setState(() {
-                                            GlobalStatic.onGenre!(genre);
-                                          });
-                                        }
-                                      }),
-                                  DropDownCategories(
-                                      items: [
-                                        const Categorie(
-                                            categorieId: '',
-                                            description: '',
-                                            name: 'Toutes les catégories',
-                                            photoUrl: ''),
-                                        ...Categories().listCategories
-                                      ],
-                                      onChanged: (String categorieId) {
-                                        if (GlobalStatic.onCategorie != null) {
-                                          setState(() {
-                                            if (categorieId.isNotEmpty) {
-                                              GlobalStatic.onCategorie!(
-                                                  Categories()
-                                                      .listCategories
-                                                      .fromId(categorieId));
-                                            } else {
-                                              GlobalStatic.onCategorie!(
-                                                const Categorie(
-                                                    description: '',
-                                                    categorieId: '',
-                                                    name:
-                                                        'Toutes les catégories',
-                                                    photoUrl: ''),
-                                              );
-                                            }
-                                          });
-                                        }
-                                      }),
-                                ],
-                              ),
+                            const SizedBox(
+                              height: 28,
+                            ),
+                            Wrap(
+                              alignment: WrapAlignment.spaceEvenly,
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              direction: Axis.horizontal,
+                              runSpacing: 8.0,
+                              //crossAxisAlignment: CrossAxisAlignment.start,
+                              // mainAxisAlignment:
+                              //     MainAxisAlignment.spaceAround,
+                              // mainAxisSize: MainAxisSize.max,
+                              children: [
+                                DropDownMarques(
+                                    items: [
+                                      const Marque(
+                                          description: '',
+                                          marqueId: '',
+                                          name: 'Toutes les marques',
+                                          photoUrl: ''),
+                                      ...Marques().listMarques
+                                    ],
+                                    onChanged: (String marqueId) {
+                                      if (GlobalStatic.onMarque != null) {
+                                        setState(() {
+                                          if (marqueId.isNotEmpty) {
+                                            GlobalStatic.onMarque!(Marques()
+                                                .listMarques
+                                                .fromId(marqueId));
+                                          } else {
+                                            GlobalStatic.onMarque!(
+                                              const Marque(
+                                                  description: '',
+                                                  marqueId: '',
+                                                  name: 'Toutes les marques',
+                                                  photoUrl: ''),
+                                            );
+                                          }
+                                        });
+                                      }
+                                    }),
+                                DropDownGenres(
+                                    items: GlobalStatic.genres,
+                                    onChanged: (genre) {
+                                      if (GlobalStatic.onGenre != null) {
+                                        setState(() {
+                                          GlobalStatic.onGenre!(genre);
+                                        });
+                                      }
+                                    }),
+                                DropDownCategories(
+                                    items: [
+                                      const Categorie(
+                                          categorieId: '',
+                                          description: '',
+                                          name: 'Toutes les catégories',
+                                          photoUrl: ''),
+                                      ...Categories().listCategories
+                                    ],
+                                    onChanged: (String categorieId) {
+                                      if (GlobalStatic.onCategorie != null) {
+                                        setState(() {
+                                          if (categorieId.isNotEmpty) {
+                                            GlobalStatic.onCategorie!(
+                                                Categories()
+                                                    .listCategories
+                                                    .fromId(categorieId));
+                                          } else {
+                                            GlobalStatic.onCategorie!(
+                                              const Categorie(
+                                                  description: '',
+                                                  categorieId: '',
+                                                  name: 'Toutes les catégories',
+                                                  photoUrl: ''),
+                                            );
+                                          }
+                                        });
+                                      }
+                                    }),
+                              ],
                             ),
                             Padding(
                               padding:

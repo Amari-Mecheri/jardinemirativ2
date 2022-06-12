@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:jardinemirativ2/classes/services/categorie_service.dart';
+import 'package:jardinemirativ2/consts/global_variables.dart';
+import 'package:jardinemirativ2/models/product.dart';
 
-import '../classes/services/categorie_service.dart';
 import '../classes/services/marque_service.dart';
 import '../classes/services/order_service.dart';
 import '../consts/colors.dart';
-import '../consts/global_variables.dart';
-import '../models/product.dart';
 
-class ProductCard extends StatelessWidget {
+class ProductCard extends StatefulWidget {
   final Product product;
   const ProductCard({Key? key, required this.product}) : super(key: key);
 
+  @override
+  State<ProductCard> createState() => _ProductCardState();
+}
+
+class _ProductCardState extends State<ProductCard> {
   @override
   Widget build(BuildContext context) {
     double width = 200;
@@ -40,7 +45,7 @@ class ProductCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Image.network(
-              product.photoUrl,
+              widget.product.photoUrl,
               height: imageHeight,
               width: width,
               fit: BoxFit.fitWidth,
@@ -48,7 +53,7 @@ class ProductCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(4.0),
               child: SizedBox(
-                height: 50,
+                height: 45,
                 child: ListView(
                   padding: EdgeInsets.zero,
                   // crossAxisAlignment: CrossAxisAlignment.end,
@@ -57,7 +62,7 @@ class ProductCard extends StatelessWidget {
                   children: [
                     Center(
                       child: Text(
-                        product.name,
+                        widget.product.name,
                         style: TextStyle(
                             fontSize: nameFontSize,
                             fontWeight: FontWeight.bold,
@@ -68,20 +73,20 @@ class ProductCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          product.marqueId.isNotEmpty
+                          widget.product.marqueId.isNotEmpty
                               ? Marques()
                                   .listMarques
-                                  .fromId(product.marqueId)
+                                  .fromId(widget.product.marqueId)
                                   .name
                               : '',
                           style: const TextStyle(
                               fontSize: 10, color: Colors.blueGrey),
                         ),
-                        product.likes.isNotEmpty
+                        widget.product.likes.isNotEmpty
                             ? Row(
                                 children: [
                                   Text(
-                                    '${product.likes.length} ',
+                                    '${widget.product.likes.length} ',
                                     style: const TextStyle(
                                         fontSize: 10, color: Colors.blueGrey),
                                   ),
@@ -97,10 +102,10 @@ class ProductCard extends StatelessWidget {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        product.categorieId.isNotEmpty
+                        widget.product.categorieId.isNotEmpty
                             ? Categories()
                                 .listCategories
-                                .fromId(product.categorieId)
+                                .fromId(widget.product.categorieId)
                                 .name
                             : '',
                         style: const TextStyle(
@@ -110,7 +115,9 @@ class ProductCard extends StatelessWidget {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        product.genre == "Tous" ? "" : product.genre,
+                        widget.product.genre == "Tous"
+                            ? ""
+                            : widget.product.genre,
                         style: const TextStyle(
                             fontSize: 10, color: Colors.blueGrey),
                       ),
@@ -120,7 +127,7 @@ class ProductCard extends StatelessWidget {
               ),
             ),
             Text(
-              product.title,
+              widget.product.title,
               style: TextStyle(
                   color: Colors.black.withOpacity(0.6),
                   fontSize: nameFontSize - 1),
@@ -133,11 +140,9 @@ class ProductCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      "${product.price.toStringAsFixed(2)}€",
+                      "${widget.product.price.toStringAsFixed(2)}€",
                       style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Colors.redAccent),
+                          fontSize: 16, color: Colors.redAccent),
                     ),
                     SizedBox(
                       width: priceSpace,
@@ -154,7 +159,7 @@ class ProductCard extends StatelessWidget {
                         ),
                         InkWell(
                             onTap: () {
-                              Orders().addToBasket(product);
+                              Orders().addToBasket(widget.product);
                             },
                             child: const Icon(Icons.add_shopping_cart,
                                 color: Colors.green)),

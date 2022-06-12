@@ -23,8 +23,10 @@ class Footer extends StatelessWidget {
               child: Text('Rejoingnez-nous sur'),
             ),
             IntrinsicHeight(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
+              child: Wrap(
+                alignment: WrapAlignment.spaceEvenly,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                direction: Axis.horizontal,
                 children: [
                   TextButton(
                     onPressed: () {},
@@ -58,8 +60,11 @@ class Footer extends StatelessWidget {
               height: 3 * 14,
             ),
             IntrinsicHeight(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
+              child: Wrap(
+                alignment: WrapAlignment.spaceEvenly,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                direction: Axis.horizontal,
+                //mainAxisSize: MainAxisSize.min,
                 children: [
                   TextButton(
                     onPressed: () => MainPageController.navigationTab(3),

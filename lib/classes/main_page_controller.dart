@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'global_static.dart';
+
 class MainPageController {
   static PageController pageController = PageController();
   static List<Function> onPageChangedCallbacks = [];
@@ -9,9 +11,11 @@ class MainPageController {
   }
 
   static onPageChanged(int page) {
-    for (var element in onPageChangedCallbacks) {
-      element(page);
-    }
+    GlobalStatic.mainPage.value = page;
+
+    // for (var element in onPageChangedCallbacks) {
+    //   element(page);
+    // }
   }
 
   static addOnPageChangedCallback(Function callback) {

@@ -191,6 +191,7 @@ class FirestoreMethods {
   // }
 
   Future<String> addToBasket(
+    String orderLineId,
     String basketId,
     String productId,
     int quantity,
@@ -203,7 +204,10 @@ class FirestoreMethods {
           productId.isNotEmpty &&
           quantity > 0 &&
           unitPrice > 0) {
+        if (orderLineId.isEmpty) orderLineId = const Uuid().v1();
+
         OrderLine orderLine = OrderLine(
+          orderLineId: orderLineId,
           basketId: basketId,
           productId: productId,
           quantity: quantity,
@@ -215,6 +219,8 @@ class FirestoreMethods {
             .doc(FirebaseAuth.instance.currentUser!.uid)
             .collection('orders')
             .doc(basketId)
+            .collection('orderLines')
+            .doc(orderLineId)
             .set(
               orderLine.toJson(),
             );

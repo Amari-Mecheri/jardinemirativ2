@@ -4,6 +4,7 @@ import 'package:jardinemirativ2/screens/mentions_legales_screen.dart';
 import 'package:jardinemirativ2/screens/products_search.dart';
 
 import '../screens/admin_screen.dart';
+import '../screens/basket_screen.dart';
 
 const minScreenSize = 900;
 const midScreenSize = 1200;
@@ -11,9 +12,10 @@ const midScreenSize = 1200;
 List<Widget> homeScreenItems = [
   const HomeScreen(),
   const AdminScreen(),
+  const ProducsSearch(),
   const Text('Mon compte'),
   const MentionsLegalesScreen(),
-  const Text('Pas niais'),
+  const BasketScreen(),
   // const ProductsMarqueScreen(),
   // const ProductsGenreScreen(),
   // const ProductsCategorieScreen(),
