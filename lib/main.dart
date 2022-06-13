@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:jardinemirativ2/consts/global_variables.dart';
+import 'package:jardinemirativ2/widgets/basket_total.dart';
 import 'package:jardinemirativ2/widgets/menu_bars/mobile_menu_bar.dart';
 import 'package:url_strategy/url_strategy.dart';
 
@@ -67,17 +68,40 @@ class _JardinEmiratiState extends State<JardinEmirati> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.active) {
             if (snapshot.hasData) {
-              return Scaffold(
-                extendBodyBehindAppBar: true,
-                appBar: (MediaQuery.of(context).size.width > minScreenSize
-                    ? const WebMenuBar()
-                    : const MobileMenuBar()) as PreferredSizeWidget,
-                body: PageView(
-                  controller: MainPageController.pageController,
-                  onPageChanged: MainPageController.onPageChanged,
-                  children: homeScreenItems,
-                ),
-              );
+              return ValueListenableBuilder(
+                  valueListenable: GlobalStatic.basketTotal,
+                  builder: (context, total, child) {
+                    //print(total);
+                    if (total == 0) {
+                      return Scaffold(
+                        extendBodyBehindAppBar: true,
+                        appBar:
+                            (MediaQuery.of(context).size.width > minScreenSize
+                                ? const WebMenuBar()
+                                : const MobileMenuBar()) as PreferredSizeWidget,
+                        body: PageView(
+                          controller: MainPageController.pageController,
+                          onPageChanged: MainPageController.onPageChanged,
+                          children: homeScreenItems,
+                        ),
+                      );
+                    } else {
+                      return Scaffold(
+                        // ignore: prefer_const_constructors
+                        bottomNavigationBar: BasketTotal(),
+                        extendBodyBehindAppBar: true,
+                        appBar:
+                            (MediaQuery.of(context).size.width > minScreenSize
+                                ? const WebMenuBar()
+                                : const MobileMenuBar()) as PreferredSizeWidget,
+                        body: PageView(
+                          controller: MainPageController.pageController,
+                          onPageChanged: MainPageController.onPageChanged,
+                          children: homeScreenItems,
+                        ),
+                      );
+                    }
+                  });
             } else if (snapshot.hasError) {
               return Center(
                 child: Text('${snapshot.error}'),

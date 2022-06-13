@@ -94,8 +94,50 @@ class Orders {
 
 extension BasketTools on Orders {
   Future<String> addToBasket(Product product) async {
-    return await FirestoreMethods()
-        .addToBasket('', basket!.orderId, product.productId, 1, product.price);
+    var qty = 1;
+    var productLine = Orders()
+        .basketLines
+        .where((element) => element.productId == product.productId);
+    if (productLine.isNotEmpty) {
+      qty = productLine.first.quantity + 1;
+      return await FirestoreMethods().addToBasket(productLine.first.orderLineId,
+          basket!.orderId, product.productId, qty, product.price);
+    }
+    return await FirestoreMethods().addToBasket(
+        '', basket!.orderId, product.productId, qty, product.price);
+  }
+
+  Future<String> subFromBasket(Product product) async {
+    var qty = 0;
+    var productLine = Orders()
+        .basketLines
+        .where((element) => element.productId == product.productId);
+    if (productLine.isNotEmpty) {
+      qty = productLine.first.quantity - 1;
+      if (qty > 0) {
+        return await FirestoreMethods().addToBasket(
+            productLine.first.orderLineId,
+            basket!.orderId,
+            product.productId,
+            qty,
+            product.price);
+      } else {
+        removeFromBasket(product);
+      }
+    }
+    return await FirestoreMethods().addToBasket(
+        '', basket!.orderId, product.productId, qty, product.price);
+  }
+
+  Future<String> removeFromBasket(Product product) async {
+    var productLine = Orders()
+        .basketLines
+        .where((element) => element.productId == product.productId);
+    if (productLine.isNotEmpty) {
+      return await FirestoreMethods()
+          .removeFromBasket(productLine.first.orderLineId, basket!.orderId);
+    }
+    return "Ce produit n'est pas dans le panier";
   }
 }
 

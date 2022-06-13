@@ -7,24 +7,29 @@ import '../consts/colors.dart';
 import '../consts/global_variables.dart';
 import '../models/product.dart';
 
-class ProductCard extends StatelessWidget {
+class ProductBasketCard extends StatelessWidget {
   final Product product;
-  const ProductCard({Key? key, required this.product}) : super(key: key);
+  const ProductBasketCard({Key? key, required this.product}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     double width = 200;
-    double height = 320;
+    double height = 340;
     double imageHeight = 200;
     double priceSpace = 30;
     double nameFontSize = 14;
     if (MediaQuery.of(context).size.width < minScreenSize) {
       width = 150;
-      height = 270;
+      height = 290;
       imageHeight = 150;
       priceSpace = 10;
       nameFontSize = 12;
     }
+    int qty = Orders()
+        .basketLines
+        .where((line) => line.productId == product.productId)
+        .first
+        .quantity;
     return SizedBox(
       width: width,
       height: height,
@@ -120,7 +125,7 @@ class ProductCard extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(right: 2.0),
+              padding: const EdgeInsets.only(right: 4.0),
               child: Text(
                 product.title,
                 style: TextStyle(
@@ -129,44 +134,75 @@ class ProductCard extends StatelessWidget {
               ),
             ),
             Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Text(
+                "${product.price.toStringAsFixed(2)}€",
+                style: const TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16,
+                    color: Colors.redAccent),
+              ),
+            ),
+            Padding(
               padding: const EdgeInsets.all(4.0),
               child: IntrinsicHeight(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "${product.price.toStringAsFixed(2)}€",
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Colors.redAccent),
+                child: Center(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 1, color: Colors.grey),
                     ),
-                    SizedBox(
-                      width: priceSpace,
-                    ),
-                    Row(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        const VerticalDivider(
-                          width: 10,
-                          thickness: 1,
-                          color: Colors.black,
-                        ),
-                        SizedBox(
-                          width: priceSpace,
+                        // const VerticalDivider(
+                        //   width: 10,
+                        //   thickness: 1,
+                        //   color: Colors.black,
+                        // ),
+                        // SizedBox(
+                        //   width: priceSpace,
+                        // ),
+                        qty > 1
+                            ? InkWell(
+                                onTap: () {
+                                  Orders().subFromBasket(product);
+                                },
+                                child: const Icon(Icons.remove,
+                                    color: Colors.grey))
+                            : InkWell(
+                                onTap: () {
+                                  Orders().removeFromBasket(product);
+                                },
+                                child: const Icon(Icons.delete,
+                                    color: Colors.grey)),
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(width: 1, color: Colors.grey),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 8.0, right: 8.0, top: 3.0, bottom: 3.0),
+                            child: Text(
+                              qty.toString(),
+                              style: TextStyle(
+                                  fontSize: nameFontSize + 3,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                            ),
+                          ),
                         ),
                         InkWell(
                             onTap: () {
                               Orders().addToBasket(product);
                             },
-                            child: const Icon(Icons.add_shopping_cart,
-                                color: Colors.green)),
-                        const SizedBox(
-                          width: 10,
-                        ),
+                            child: const Icon(Icons.add, color: Colors.grey)),
+                        // const SizedBox(
+                        //   width: 10,
+                        // ),
                       ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),

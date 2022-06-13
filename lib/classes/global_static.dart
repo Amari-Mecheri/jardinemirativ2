@@ -7,6 +7,7 @@ import '../models/marque.dart';
 
 class GlobalStatic {
   static ValueNotifier<int> mainPage = ValueNotifier(0);
+  static ValueNotifier<double> basketTotal = ValueNotifier(0.0);
   static String? mentionsLegales;
   static MemoryImage? backgroundImage;
   //static Uint8List? currentDetailLogo;
@@ -31,6 +32,11 @@ class GlobalStatic {
   static Function? onCategorie;
   static Function? onGenre;
   static Function? onProduct;
+
+  static changeBasketToal(value) async {
+    await Future.delayed(Duration(microseconds: 1));
+    basketTotal.value = value;
+  }
 
   static Future<Set<Object>> getImage(String imgPath) async {
     final buffer = await rootBundle.load(imgPath);

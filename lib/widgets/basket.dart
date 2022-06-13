@@ -26,32 +26,42 @@ class Basket extends StatelessWidget {
               stream: Orders().basketLinesStream,
               builder: (context,
                   AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-                return Orders().basketLines.isNotEmpty
-                    ? Badge(
-                        animationType: BadgeAnimationType.scale,
-                        alignment: Alignment.center,
-                        badgeColor: Colors.red,
-                        badgeContent: Text(
-                          Orders().basketLines.length.toString(),
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                        child: Image.asset(
-                          color: GlobalStatic.mainPage.value == 5
-                              ? webActiveMenuBar
-                              : webInActiveMenuBar,
-                          'image/basket.png',
-                          width: 28,
-                          alignment: Alignment.bottomCenter,
-                        ),
-                      )
-                    : Image.asset(
-                        color: GlobalStatic.mainPage.value == 5
-                            ? webActiveMenuBar
-                            : webInActiveMenuBar,
-                        'image/basket.png',
-                        width: 28,
-                        alignment: Alignment.bottomCenter,
-                      );
+                if (Orders().basketLines.isEmpty) {
+                  GlobalStatic.changeBasketToal(0);
+                  return Image.asset(
+                    color: GlobalStatic.mainPage.value == 5
+                        ? webActiveMenuBar
+                        : webInActiveMenuBar,
+                    'image/basket.png',
+                    width: 28,
+                    alignment: Alignment.bottomCenter,
+                  );
+                }
+                var nbArticles = Orders().basketLines.fold<int>(
+                    0,
+                    (previousValue, element) =>
+                        previousValue += element.quantity);
+                GlobalStatic.changeBasketToal(Orders().basketLines.fold<double>(
+                    0,
+                    (previousValue, element) =>
+                        previousValue += element.quantity * element.unitPrice));
+                return Badge(
+                  animationType: BadgeAnimationType.scale,
+                  alignment: Alignment.center,
+                  badgeColor: Colors.red,
+                  badgeContent: Text(
+                    nbArticles.toString(),
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  child: Image.asset(
+                    color: GlobalStatic.mainPage.value == 5
+                        ? webActiveMenuBar
+                        : webInActiveMenuBar,
+                    'image/basket.png',
+                    width: 28,
+                    alignment: Alignment.bottomCenter,
+                  ),
+                );
               },
             );
           },

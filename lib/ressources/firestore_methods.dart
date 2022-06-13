@@ -232,6 +232,29 @@ class FirestoreMethods {
     return res;
   }
 
+  Future<String> removeFromBasket(
+    String orderLineId,
+    String basketId,
+  ) async {
+    String res = "Le panier et la ligne de commande sont requis";
+    try {
+      if (basketId.isNotEmpty && orderLineId.isNotEmpty) {
+        await _firestore
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection('orders')
+            .doc(basketId)
+            .collection('orderLines')
+            .doc(orderLineId)
+            .delete();
+        res = 'success';
+      }
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
+
   Future<void> deleteMarque(String marqueId) async {
     try {
       await _firestore.collection('marques').doc(marqueId).delete();
